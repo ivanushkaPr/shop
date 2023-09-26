@@ -1,0 +1,49 @@
+<template>
+<nav class="header-middle">
+  <div class="header-middle__logotype">
+    <icon-logo />
+    <h1 class="header-middle__company-name"> soundmarket </h1>
+  </div>
+  <search-input :placeholder="'Искать товары'"/>
+  <div class="header-middle__menu">
+    <icon-cart />
+    <icon-heart />
+    <icon-user/>
+  </div>
+</nav>
+</template>
+
+<style lang="scss">
+.header-middle {
+  background-color: $secondary-700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 112.5px;
+  padding: 20px 300px;
+
+  &__logotype {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__company-name {
+    color: $gray-00;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 40px; /* 125% */
+    letter-spacing: -0.64px;
+    text-transform: uppercase;
+    margin:0px;
+  }
+
+  &__menu {
+    display: flex;
+    gap: 24px;
+  }
+}
+</style>
+<script setup lang="ts">
+import SearchInput from "~/components/base/search-input.vue";
+</script>
