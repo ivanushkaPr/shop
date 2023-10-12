@@ -10,11 +10,37 @@ const props = defineProps({
 
 const isOpened = ref(false);
 
+const onResetMusicStyle = () => {
+  selectedMusicStyle.value = null;
+}
 const toggleMenuVisibility = () => {
   isOpened.value = !isOpened.value;
 }
-</script>
 
+let selectedMusicStyle = ref(null);
+
+const onResetSinger = () => {
+  selectedSinger.value = null;
+  selectedBanner.value = null;
+};
+
+const onShowSingersMenu = async (singerName) => {
+  onResetSinger();
+  const { data } = await useFetch('/api/getSingers');
+  selectedMusicStyle.value = data.value[singerName];
+};
+
+const selectedSinger = ref(null);
+const selectedBanner = ref(null);
+
+const onShowAlbumsMenu =  async (singerName) => {
+  const { data: singerData } = await useFetch('api/getAlbums');
+  const { data: bannerData } = await useFetch('/api/getBanners');
+  selectedSinger.value = singerData.value[singerName];
+  selectedBanner.value = bannerData.value[singerName];
+};
+
+</script>
 
 <template>
 <div class="categories-menu">
@@ -28,13 +54,27 @@ const toggleMenuVisibility = () => {
       '_color_white': isOpened
     }"/>
   </button>
+
   <transition name="fade">
-    <ul v-if="isOpened" class="categories-menu__list">
-      <li v-for="item in menuItems" class="categories-menu__item">
-        {{ item }}
-        <icon-chevron-right-bold class="categories-menu__item-icon"/>
-      </li>
-    </ul>
+  <div v-if="isOpened" >
+    <menu-music-styles @click="onShowSingersMenu" :items="menuItems"/>
+    <transition name="fade">
+      <div v-if="selectedMusicStyle" @mouseleave="onResetMusicStyle" class="categories-menu__singers">
+        <menu-singers :items="selectedMusicStyle" @mouseover="onShowAlbumsMenu"/>
+        <transition name="fade">
+          <figure v-if="selectedSinger" class="categories-menu__albums">
+            <figcaption class="categories-menu__albums-headline"> Рекомендуемые альбомы </figcaption>
+            <ul class="categories-menu__albums-list">
+              <card-small v-for="album in selectedSinger" v-bind="album" :key="album.title" />
+            </ul>
+          </figure>
+        </transition>
+        <transition name="fade">
+          <banner-small v-if="selectedBanner" v-bind="selectedBanner" />
+        </transition>
+      </div>
+    </transition>
+  </div>
   </transition>
 </div>
 </template>
@@ -104,6 +144,64 @@ const toggleMenuVisibility = () => {
     }
     &__item-icon {
       display: none;
+    }
+
+    &__singers {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      position: absolute;
+      left: 252px;
+      top: 60px;
+      border: 1px solid var(--gray-100, #E4E7E9);
+      background: var(--gray-00, #FFF);
+      box-shadow: 0px 8px 40px 0px rgba(0, 0, 0, 0.12);
+    }
+
+    &__singers-menu {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      background-color: white;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+
+    &__singer-item {
+      min-width: 164px;
+      padding: 8px 16px;
+      border-radius: 3px;
+      color: var(--gray-600, #5F6C72);
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 20px; /* 142.857% */
+
+      &:hover {
+        background: var(--gray-50, #F2F4F5);
+        color: var(--gray-900, #191C1F);
+      }
+    }
+
+    &__albums {
+      margin: 0px;
+    }
+
+    &__albums-headline {
+      color: var(--gray-900, #191C1F);
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+      margin-bottom: 16px;
+    }
+
+    &__albums-list {
+      margin: 0px;
+      list-style-type: none;
+      padding: 0px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
   }
 

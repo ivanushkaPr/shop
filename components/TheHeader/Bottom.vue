@@ -10,14 +10,12 @@ const { data } = await useFetch('/api/getMenu');
     </div>
     <call-us/>
   </div>
-<!--  <pre>{{ data }}</pre>-->
 </template>
 
 <style lang="scss">
 .header-bottom {
   display: flex;
   padding: 30px 300px;
-  display: flex;
   justify-content: space-between;
   &__left {
     display: flex;
