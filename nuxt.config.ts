@@ -4,6 +4,7 @@ export default defineNuxtConfig({
         '@nuxtjs/strapi',
         '@nuxtjs/google-fonts',
         'nuxt-swiper',
+        '@pinia/nuxt',
     ],
     strapi:
 {
@@ -34,7 +35,8 @@ export default defineNuxtConfig({
         css: {
             preprocessorOptions: {
                 scss: {
-                    additionalData: '@use "~/assets/scss/variables.scss" as *;'
+                    additionalData: '@use "~/assets/scss/mixins.scss" as *; ' +
+                        '@use "~/assets/scss/variables.scss" as *;'
                 }
             }
         }

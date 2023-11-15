@@ -1,5 +1,15 @@
+<script setup>
+  import SearchInput from "~/components/base/search-input.vue";
+
+  import { storeToRefs } from 'pinia';
+  import { useCounterStore } from "~/stores/test.js";
+  const store = useCounterStore();
+  const { authDropdownVisibility } = storeToRefs(store);
+  const { toggleAuthDropdownVisibility } = store;
+</script>
+
 <template>
-<nav class="header-middle">
+<nav class="header-middle" >
   <div class="header-middle__logotype">
     <icon-logo />
     <h1 class="header-middle__company-name"> soundmarket </h1>
@@ -8,7 +18,10 @@
   <div class="header-middle__menu">
     <icon-cart />
     <icon-heart />
-    <icon-user/>
+    <div class="header-middle__sign-in-form">
+      <icon-user @click="toggleAuthDropdownVisibility"/>
+      <dropdown-sign-in v-if="authDropdownVisibility" />
+    </div>
   </div>
 </nav>
 </template>
@@ -42,8 +55,9 @@
     display: flex;
     gap: 24px;
   }
+
+  &__sign-in-form {
+    position: relative;
+  }
 }
 </style>
-<script setup lang="ts">
-import SearchInput from "~/components/base/search-input.vue";
-</script>
