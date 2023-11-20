@@ -8,6 +8,7 @@ const props = defineProps({
   },
 });
 
+const isMouseOver = ref(false);
 const isOpened = ref(false);
 
 const onResetMusicStyle = () => {
@@ -43,15 +44,19 @@ const onShowAlbumsMenu =  async (singerName) => {
 </script>
 
 <template>
-<div class="categories-menu">
+<div class="categories-menu"
+     v-click-outside="() => isOpened = false">
   <button class="categories-menu__button"
           :class="{'_menu-opened': isOpened}"
           @click="toggleMenuVisibility"
+          @mouseenter="() => isMouseOver = true"
+          @mouseleave="() => isMouseOver = false"
   >
     Все товары
-    <chevron-down-bold class="categories-menu__icon" :class="{
+    <chevron-down-bold
+        class="categories-menu__icon" :class="{
       '_rotate_180deg': isOpened,
-      '_color_white': isOpened
+      '_color_white': isOpened || isMouseOver
     }"/>
   </button>
 
@@ -101,6 +106,11 @@ const onShowAlbumsMenu =  async (singerName) => {
         background: var(--primary-500, #FA8232);
         color: var(--gray-00, #FFF);
       }
+
+      &:hover {
+        background: var(--primary-500, #FA8232);
+        color: var(--gray-00, #FFF);
+      }
     }
 
     &__icon {
@@ -119,13 +129,13 @@ const onShowAlbumsMenu =  async (singerName) => {
       position: absolute;
       top: 60px;
       width: 240px;
-      padding: 12px 0px;
+      padding: 12px 0;
       border-radius: 3px;
       border: 1px solid var(--gray-100, #E4E7E9);
       background: var(--gray-00, #FFF);
-      box-shadow: 0px 8px 40px 0px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.12);
       list-style-type: none;
-      margin: 0px;
+      margin: 0;
     }
 
     &__item {
@@ -155,7 +165,7 @@ const onShowAlbumsMenu =  async (singerName) => {
       top: 60px;
       border: 1px solid var(--gray-100, #E4E7E9);
       background: var(--gray-00, #FFF);
-      box-shadow: 0px 8px 40px 0px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.12);
     }
 
     &__singers-menu {
@@ -184,7 +194,7 @@ const onShowAlbumsMenu =  async (singerName) => {
     }
 
     &__albums {
-      margin: 0px;
+      margin: 0;
     }
 
     &__albums-headline {
@@ -196,9 +206,9 @@ const onShowAlbumsMenu =  async (singerName) => {
     }
 
     &__albums-list {
-      margin: 0px;
+      margin: 0;
       list-style-type: none;
-      padding: 0px;
+      padding: 0;
       display: flex;
       flex-direction: column;
       gap: 16px;

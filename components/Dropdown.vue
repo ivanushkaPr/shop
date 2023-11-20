@@ -28,11 +28,10 @@ const onToggleDropdownMenu = () => {
 }
 
 const isSelected = (itemIndex) => {
-  debugger;
   return itemIndex === selectedOptionIndex.value;
 }
 
-const onClickOutside = (event) => {
+const onClickOutside = () => {
   isOpened.value = false;
 }
 
@@ -117,7 +116,6 @@ const onClickOutside = (event) => {
     display: flex;
     align-items: center;
     cursor: pointer;
-    display: flex;
     gap: 48px;
     min-height: 38px;
     box-sizing: border-box;

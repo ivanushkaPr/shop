@@ -4,12 +4,16 @@ const props = defineProps({
     type: String,
     required: true,
   },
-
+  btnType: {
+    type: String,
+    required: false,
+    default: 'button',
+  },
 });
 </script>
 
 <template>
-  <button class="action-button">
+  <button class="action-button" :type="btnType">
     {{ props.text }}
     <icon-arrow-right/>
   </button>
@@ -23,7 +27,7 @@ const props = defineProps({
   justify-content: center;
   align-items: center;
   gap: 8px;
-  border-radius: 2px;
+  border-radius: 3px;
   background: var(--primary-500, #FA8232);
   border: none;
 
@@ -32,5 +36,14 @@ const props = defineProps({
   font-weight: 700;
   letter-spacing: 0.168px;
   text-transform: uppercase;
+  transition: background 0.3s;
+
+  &:hover {
+    background: var(--primary-600, #DE732D);
+  }
+
+  &:disabled {
+    background: var(--primary-200, #FFCEAD);
+  }
 }
 </style>

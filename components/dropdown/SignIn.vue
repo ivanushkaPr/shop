@@ -1,7 +1,46 @@
 <script setup>
 import { useCounterStore } from "~/stores/test.js";
 const store = useCounterStore();
-const { toggleAuthDropdownVisibility } = store;
+const { toggleAuthDropdownVisibility, closeAuthDropdown } = store;
+
+const state = reactive({
+  identifier: '',
+  password: '',
+})
+
+import useVuelidate from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+const rules = computed(() => {
+  const localRules = {
+    identifier: { required },
+    password: { required }
+  };
+
+  return localRules;
+});
+
+const $v = useVuelidate(rules, state);
+
+const validate = () => {
+  $v.value.$touch()
+};
+
+const onLoginHandler =  async () => {
+  validate();
+  debugger;
+  if ($v.value.$invalid) {
+    return;
+  }
+
+  try {
+    const data = await login({identifier: state.identifier.value, password: state.password.value});
+    setName(data.user.value.username);
+    navigateTo('/account');
+  } catch(e) {
+
+  }
+}
+
 
 const redirect = () => {
   toggleAuthDropdownVisibility();
@@ -10,26 +49,38 @@ const redirect = () => {
 </script>
 
 <template>
-  <div class="sign-in-dropdown">
+  <form @submit.prevent="onLoginHandler"
+        class="sign-in-dropdown"
+        v-click-outside="closeAuthDropdown">
+
     <h3 class="sign-in-dropdown__header"> Войти </h3>
 
-    <input-text class="sign-in-dropdown__email"
-                legend="Электронная почта"/>
+    <input-text class="form-sign-in__email"
+                legend="Электронная почта"
+                v-model="state.identifier"
+                @update:modelValue="$v.identifier.$reset"
+                :error="$v.identifier.$error"
+                error-text="Обязательное поле"
+    />
 
-    <input-hidden class="sign-in-dropdown__password"
+    <input-hidden class="form-sign-in__password"
                   legend="Пароль"
                   href="#"
                   link-text="Забыли пароль?"
+                  :error="$v.password.$error"
+                  error-text="Обязательное поле"
+                  v-model="state.password"
+                  @update:modelValue="$v.password.$reset"
     />
 
-    <base-action-button class="sign-in-dropdown__enter-button" text="Войти" />
+    <base-action-button class="sign-in-dropdown__enter-button" text="Войти" type="submit"/>
 
     <text-divider text="У вас нет аккаунта?"/>
 
     <base-secondary-button class="sign-in-dropdown__register-button"
                            text="Зарегистрироваться"
                            @click="redirect"/>
-  </div>
+  </form>
 </template>
 
 <style lang="scss">

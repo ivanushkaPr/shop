@@ -1,19 +1,71 @@
 <script setup>
+const state = reactive({
+  identifier: '',
+  password: '',
+})
 
+import { useAuthStore } from "~/stores/auth.js";
+const store = useAuthStore();
+const { setName } = store;
+
+
+import useVuelidate from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+const rules = computed(() => {
+  const localRules = {
+    identifier: { required },
+    password: { required }
+  };
+
+  return localRules;
+});
+
+const $v = useVuelidate(rules, state);
+
+const validate = () => {
+  $v.value.$touch()
+};
+
+const { login } = useStrapiAuth();
+const onLoginHandler =  async () => {
+  validate();
+  if ($v.value.$invalid) {
+    return;
+  }
+
+  try {
+    const data = await login({identifier: state.identifier.value, password: state.password.value});
+    setName(data.user.value.username);
+    navigateTo('/account');
+  } catch(e) {
+
+  }
+}
 </script>
 
 <template>
-  <div class="form-sign-in">
+  <form @submit.prevent="onLoginHandler" class="form-sign-in">
     <input-text class="form-sign-in__email"
-                legend="Электронная почта"/>
+                legend="Электронная почта"
+                v-model="state.identifier"
+                @update:modelValue="$v.identifier.$reset"
+                :error="$v.identifier.$error"
+                error-text="Обязательное поле"
+    />
 
     <input-hidden class="form-sign-in__password"
                   legend="Пароль"
                   href="#"
                   link-text="Забыли пароль?"
+                  :error="$v.password.$error"
+                  error-text="Обязательное поле"
+                  v-model="state.password"
+                  @update:modelValue="$v.password.$reset"
     />
 
-    <base-action-button class="form-sign-in__enter-button" text="Войти" />
+    <base-action-button class="form-sign-in__enter-button"
+                        text="Войти"
+                        type="submit"/>
 
     <text-divider text="или" />
 
@@ -21,10 +73,10 @@
       <icon-google/>
     </button-o-auth>
 
-    <button-o-auth text="Войти с Apple">
+    <button-o-auth text="Войти с Apple" type="submit">
       <icon-apple/>
     </button-o-auth>
-  </div>
+  </form>
 </template>
 
 <style lang="scss">

@@ -12,11 +12,9 @@ const currentComponent = computed(() => {
   }
 });
 
-
 const onChangeTab = (tabName) => {
   currentTabName.value = tabName;
 };
-
 </script>
 
 <template>
@@ -36,7 +34,9 @@ const onChangeTab = (tabName) => {
       </ul>
     </nav>
     <keep-alive>
-      <component :is="currentComponent" />
+      <transitions-fade>
+        <component :is="currentComponent" />
+      </transitions-fade>
     </keep-alive>
   </div>
 </template>
@@ -48,7 +48,7 @@ const onChangeTab = (tabName) => {
     border: 1px solid var(--gray-100, #E4E7E9);
     background: var(--gray-00, #FFF);
     /* Dropdown Shadow */
-    box-shadow: 0px 8px 40px 0px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.12);
 
   &__list {
     list-style-type: none;
@@ -82,6 +82,12 @@ const onChangeTab = (tabName) => {
 
     &_active-left, &_active-right {
       color: var(--gray-900, #191C1F);
+    }
+
+    &:hover {
+      background: var(--gray-50, #F2F4F5);
+      color: var(--gray-900, #191C1F);
+
     }
   }
 }

@@ -1,20 +1,40 @@
 <script setup>
 const props = defineProps({
-  value: {
+  modelValue: {
     type: String,
     require: true,
   },
+  placeholder: {
+    type: String,
+    required: false,
+    default: '',
+  },
+  error: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  errorText: {
+    type: String,
+    required: false,
+    default: '',
+  },
 });
 
-const emit = defineEmits(['input']);
-
+const emit = defineEmits(['update:modelValue'])
 const onInputHandler = (event) => {
-  emit('input', event.target.value);
+  emit('update:modelValue', event.target.value);
 };
 </script>
 
 <template>
-  <input class="base-input" type="text" :value="props.value" @input="onInputHandler"/>
+  <input class="base-input"
+         :class="{'_error': error}"
+         type="text"
+         :value="props.modelValue"
+         @input="onInputHandler"
+         :placeholder="placeholder"
+  />
 </template>
 
 <style lang="scss">
@@ -24,9 +44,28 @@ const onInputHandler = (event) => {
   border: 1px solid var(--gray-100, #E4E7E9);
   background: var(--gray-00, #FFF);
   @include font(14px, 20px, 400);
+  color: var(--gray-900, #191C1F);
+  transition: all 0.3s ease-in;
+
+  &::placeholder {
+    color: #77878F;
+  }
 
   &:focus-visible {
     outline: none
+  }
+
+  &:focus {
+    border-color: #FA8232;
+
+    &::placeholder {
+      color: var(--gray-300, #ADB7BC);
+    }
+  }
+
+  &._error {
+    border: 1px solid var(--danger-500, #EE5858);
+    background: var(--danger-50, #FDEEEE);
   }
 }
 </style>

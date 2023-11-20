@@ -24,7 +24,7 @@ const props = defineProps({
   width: 606px;
   padding: 14px 20px;
   border-radius: 2px;background: var(--gray-00, #FFF);
-  box-shadow: 0px 8px 32px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
 
   &__input {
     width: 100%;
@@ -39,12 +39,8 @@ const props = defineProps({
       border: none;
       outline: none;
     }
-  }
-
-
-
-  &__icon {
 
   }
+
 }
 </style>

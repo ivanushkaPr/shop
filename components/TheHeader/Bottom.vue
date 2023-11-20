@@ -19,7 +19,7 @@ const { data } = await useFetch('/api/getMenu');
   justify-content: space-between;
   &__left {
     display: flex;
-    gap: 24px;
+    gap: 12px;
   }
 }
 </style>

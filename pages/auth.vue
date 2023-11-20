@@ -1,6 +1,4 @@
 <script setup>
-import { useCounterStore } from "~/stores/test.js";
-
 </script>
 
 <template>
@@ -11,6 +9,7 @@ import { useCounterStore } from "~/stores/test.js";
 
 <style lang="scss">
 .auth {
+  margin: 0 auto;
   padding: 24px 300px;
   max-width: 1320px;
   display: flex;

@@ -1,23 +1,97 @@
 <script setup lang="ts">
-import Checkbox from "~/components/input/checkbox.vue";
+import { useAuthStore } from "~/stores/auth.js";
+const store = useAuthStore();
+const { setJwtToken } = store;
+
+const state = reactive({
+  username: '',
+  email: '',
+  password: '',
+  cpwd: '',
+});
+
+import useVuelidate from "@vuelidate/core";
+import { required, email, minLength, } from "@vuelidate/validators";
+const rules = computed(() => {
+  const localRules = {
+    username: { required },
+    email: { required, email },
+    password: {
+      required,
+      minLength: minLength(8),
+    },
+    cpwd: {
+      required,
+      minLength: minLength(8),
+    },
+  };
+
+  return localRules;
+});
+
+const $v = useVuelidate(rules, state);
+
+const validate = () => {
+  $v.value.$touch()
+};
+
+const collectSubmitData = () => {
+  return {
+    username: state.username,
+    email: state.email,
+    password: state.password,
+  };
+}
+const { register } = useStrapiAuth();
+const onRegister = async () => {
+  validate();
+  if ($v.value.$invalid) {
+    return;
+  }
+
+  const submitData = collectSubmitData();
+  try {
+    const data = await register(submitData);
+    setJwtToken(data.jwt);
+    navigateTo('/');
+  } catch (e) {
+
+  }
+};
 </script>
 
 <template>
-  <div class="form-sign-up">
+  <form @submit.prevent="onRegister" class="form-sign-up">
     <input-text class="form-sign-up__name"
-                legend="Имя"/>
+                legend="Имя"
+                v-model="state.username"
+                @update:modelValue="$v.username.$reset"
+                :error="$v.username.$error"
+                error-text="Обязательное поле"
+    />
 
     <input-text class="form-sign-up__email"
-                legend="Электронная почта"/>
+                legend="Электронная почта"
+                v-model="state.email"
+                @update:modelValue="$v.email.$reset"
+                :error="$v.email.$error"
+                error-text="Обязательное поле"
+    />
 
     <input-hidden class="form-sign-up__password"
                   legend="Пароль"
-                  href="#"
+                  v-model="state.password"
+                  @update:modelValue="$v.password.$reset"
+                  :error="$v.password.$error"
+                  error-text="Обязательное поле"
     />
 
     <input-hidden class="form-sign-up__password-confirm"
                   legend="Подтвердите пароль"
-                  href="#"
+                  v-model="state.cpwd"
+                  @update:modelValue="$v.cpwd.$reset"
+                  :error="$v.cpwd.$error"
+                  error-text="Обязательное поле"
     />
 
     <input-checkbox  class="form-sign-up__confirmation">
@@ -26,7 +100,9 @@ import Checkbox from "~/components/input/checkbox.vue";
     </input-checkbox>
 
 
-    <base-action-button class="form-sign-up__enter-button" text="Зарегистрироваться" />
+    <base-action-button class="form-sign-up__enter-button"
+                        text="Зарегистрироваться"
+                        type="submit"/>
 
     <text-divider text="или" />
 
@@ -37,7 +113,7 @@ import Checkbox from "~/components/input/checkbox.vue";
     <button-o-auth text="Войти с Apple">
       <icon-apple/>
     </button-o-auth>
-  </div>
+  </form>
 </template>
 
 <style lang="scss">

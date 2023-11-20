@@ -33,5 +33,11 @@ const emits = defineEmits(['click']);
   font-weight: 700;
   letter-spacing: 0.168px;
   text-transform: uppercase;
+  transition: background-color 0.3s, border-color 0.3s;
+
+  &:hover {
+    border-color: var(--primary-600, #DE732D);
+    background: var(--primary-50, #FFF3EB);
+  }
 }
 </style>

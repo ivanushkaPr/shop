@@ -12,9 +12,25 @@ const props = defineProps({
     type: String,
     required: false,
   },
+  modelValue: {
+    type: String,
+    required: false,
+  },
+  error: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  errorText: {
+    type: String,
+    required: false,
+    default: '',
+  },
 });
 
-const inputValue = ref('');
+const emit = defineEmits(['update:modelValue'])
+
+const inputValue = ref(props.modelValue ? props.modelValue : '');
 const encryptedValue = ref('');
 
 const updateValue = (value) => {
@@ -26,7 +42,10 @@ const updateValue = (value) => {
     inputValue.value = inputValue.value.slice(0, inputValue.value.length - 1);
     encryptedValue.value = encryptedValue.value.slice(0, encryptedValue.value.length - 1);
   }
+  emit('update:modelValue', inputValue.value);
 }
+
+
 const isValueShown = ref(false);
 const changeValueVisibility = () => {
   isValueShown.value = !isValueShown.value;
@@ -46,12 +65,24 @@ const shownValue = computed(() => {
     <div class="input-hidden__header">
       <base-legend class="input-hidden__legend"
                    :legend="props.legend"/>
-      <base-link v-if="href" :href="props.href" :text="props.linkText"/>
+      <base-link v-if="href"
+                 :href="props.href"
+                 :text="props.linkText"
+      />
     </div>
     <div class="input-hidden__controller">
-      <base-input @input="updateValue" :value="shownValue" class="input-hidden__input"/>
+      <base-input @update:modelValue="updateValue"
+                  :modelValue="shownValue"
+                  class="input-hidden__input"
+                  :error="props.error"
+      />
       <icon-eye @click="changeValueVisibility" class="input-hidden__icon"/>
     </div>
+    <transitions-fade>
+      <base-error v-if="error"
+                  :text="props.errorText"
+      />
+    </transitions-fade>
   </base-label>
 </template>
 
