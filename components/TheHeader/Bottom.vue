@@ -15,7 +15,7 @@ const { data } = await useFetch('/api/getMenu');
 <style lang="scss">
 .header-bottom {
   display: flex;
-  padding: 30px 300px;
+  padding: 16px 300px;
   justify-content: space-between;
   &__left {
     display: flex;
