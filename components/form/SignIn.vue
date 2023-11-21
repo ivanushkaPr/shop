@@ -2,6 +2,7 @@
 const state = reactive({
   identifier: '',
   password: '',
+  serverError: null,
 })
 
 import { useAuthStore } from "~/stores/auth.js";
@@ -34,17 +35,23 @@ const onLoginHandler =  async () => {
   }
 
   try {
-    const data = await login({identifier: state.identifier.value, password: state.password.value});
+    const data = await login({identifier: state.identifier, password: state.password});
     setName(data.user.value.username);
     navigateTo('/account');
   } catch(e) {
-
+    if (e.error.message === "Invalid identifier or password") {
+      state.serverError = 'Неправильное имя пользователя или пароль.';
+    }
   }
 }
 </script>
 
 <template>
   <form @submit.prevent="onLoginHandler" class="form-sign-in">
+
+    <base-error v-if="state.serverError"
+                class="form-sign-in__error"
+                :text="state.serverError" />
     <input-text class="form-sign-in__email"
                 legend="Электронная почта"
                 v-model="state.identifier"
@@ -82,6 +89,10 @@ const onLoginHandler =  async () => {
 <style lang="scss">
 .form-sign-in {
   padding: 24px 32px 32px;
+
+  &__error {
+    margin-bottom: 16px;
+  }
 
   &__email {
     margin-bottom: 16px;

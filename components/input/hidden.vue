@@ -45,7 +45,6 @@ const updateValue = (value) => {
   emit('update:modelValue', inputValue.value);
 }
 
-
 const isValueShown = ref(false);
 const changeValueVisibility = () => {
   isValueShown.value = !isValueShown.value;

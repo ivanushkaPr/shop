@@ -8,6 +8,7 @@ const state = reactive({
   email: '',
   password: '',
   cpwd: '',
+  serverError: '',
 });
 
 import useVuelidate from "@vuelidate/core";
@@ -55,13 +56,20 @@ const onRegister = async () => {
     setJwtToken(data.jwt);
     navigateTo('/');
   } catch (e) {
-
+    if (e.error.message === 'Email or Username are already taken') {
+      state.serverError = 'Имя или адрес электронной почты уже заняты.';
+    }
+    debugger;
   }
 };
 </script>
 
 <template>
   <form @submit.prevent="onRegister" class="form-sign-up">
+    <base-error v-if="state.serverError"
+                 class="form-sign-up__error"
+                :text="state.serverError"/>
+
     <input-text class="form-sign-up__name"
                 legend="Имя"
                 v-model="state.username"
@@ -119,6 +127,11 @@ const onRegister = async () => {
 <style lang="scss">
 .form-sign-up {
   padding: 24px 32px 32px;
+
+  &__error {
+    margin-bottom: 16px;
+  }
+
   &__name, &__email, &__password, &__password-confirm {
     margin-bottom: 16px;
   }

@@ -43,7 +43,7 @@ const onChangeTab = (tabName) => {
 
 <style lang="scss">
 .enter-form {
-    min-width: 424px;
+    width: 424px;
     border-radius: 4px;
     border: 1px solid var(--gray-100, #E4E7E9);
     background: var(--gray-00, #FFF);
