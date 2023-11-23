@@ -52,6 +52,7 @@ const onLoginHandler =  async () => {
     <base-error v-if="state.serverError"
                 class="form-sign-in__error"
                 :text="state.serverError" />
+
     <input-text class="form-sign-in__email"
                 legend="Электронная почта"
                 v-model="state.identifier"
