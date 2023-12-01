@@ -18,12 +18,20 @@ const slides = [1, 2, 3];
 </script>
 
 <template>
-	<slider-main-page class="slider-main-page"/>
-	<list-benefits />
+	<slider-main-page class="main__banner-slider"/>
+	<list-benefits class="main__benefits"/>
+	<slider-row />
 </template>
 
 <style lang="scss">
-	.slider-main-page {
-		margin: 0 auto;
+
+	.main {
+		&__banner-slider {
+			margin: 0 auto;
+		}
+
+		&__benefits {
+			margin-bottom: 40px
+		}
 	}
 </style>

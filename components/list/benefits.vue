@@ -32,7 +32,6 @@ const benefits = [{
 		<span class="list-benefits__separator" />
 		<base-benefit class="list-benefits__benefit" v-bind="benefits[3]"/>
 	</div>
-	<base-benefit />
 </template>
 
 <style lang="scss">
