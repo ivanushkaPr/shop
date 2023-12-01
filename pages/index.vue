@@ -20,7 +20,7 @@ const slides = [1, 2, 3];
 <template>
 	<slider-main-page class="main__banner-slider"/>
 	<list-benefits class="main__benefits"/>
-	<slider-row />
+	<blocks-categories />
 </template>
 
 <style lang="scss">
