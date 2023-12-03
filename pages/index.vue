@@ -12,15 +12,13 @@ const response = await find('main-page-widgets', {
 	},
 });
 
-
-const slides = [1, 2, 3];
-
 </script>
 
 <template>
 	<slider-main-page class="main__banner-slider"/>
 	<list-benefits class="main__benefits"/>
 	<blocks-categories />
+	<blocks-recommendations />
 </template>
 
 <style lang="scss">

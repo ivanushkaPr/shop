@@ -2,12 +2,13 @@
 const props = defineProps({
 	text: {
 		type: String,
-		required: true,
+		required: false,
+		default: '',
 	},
 	type: {
 		type: String,
 		required: false,
-		default: 'hot',
+		default: '',
 		validator(value) {
 			return ['hot', 'discount', 'sale', 'best', 'sold'].indexOf(value) !== -1;
 		},
@@ -40,11 +41,38 @@ const getBadgeClass = computed(() => {
 	}
 	return badgeClass;
 });
+
+const getBadgeText = computed(() => {
+	let badgeText = null;
+	switch (props.type) {
+		case('hot'): {
+			badgeText  = 'hot';
+			break;
+		}
+		case('discount'): {
+			badgeText  = 'off';
+			break;
+		}
+		case('sale'): {
+			badgeText = 'sale';
+			break;
+		}
+		case('best'): {
+			badgeText = 'best deals';
+			break;
+		}
+		default: {
+			badgeText = 'sold out';
+			break;
+		}
+	}
+	return  badgeText;
+});
 </script>
 
 <template>
 <span :class="['base-badge', getBadgeClass]">
-	{{text}}
+	{{ text }} {{ getBadgeText }}
 </span>
 </template>
 
@@ -53,6 +81,7 @@ const getBadgeClass = computed(() => {
 	padding: 5px 10px;
 	border-radius: 2px;
 	color: #FFF;
+	text-transform: uppercase;
 
 	@include font(12px, 16px, 600);
 	&._hot {

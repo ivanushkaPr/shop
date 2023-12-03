@@ -87,6 +87,7 @@ const onShowAlbumsMenu =  async (singerName) => {
 <style lang="scss">
   .categories-menu {
     position: relative;
+	  z-index: 2;
     &__button {
       display: flex;
       padding: 14px 24px;

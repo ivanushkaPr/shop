@@ -2,9 +2,9 @@
 	<div class='block-categories'>
 		<header class="block-categories__header">
 			<div class="block-categories__left">
-				<heading-level-one class="block-categories__headline">
+				<heading-level-three class="block-categories__headline">
 					Лучшие предложения
-				</heading-level-one>
+				</heading-level-three>
 
 				<p class="block-categories__timer">
 					До конца акции

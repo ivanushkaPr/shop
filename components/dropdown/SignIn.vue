@@ -86,6 +86,7 @@ const redirect = () => {
 <style lang="scss">
   .sign-in-dropdown {
     position: absolute;
+	  z-index: 2;
     right: 0px;
     min-width: 360px;
     padding: 32px;

@@ -4,12 +4,3 @@
 		<path d="M13.5 5.25L20.25 12L13.5 18.75" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 	</svg>
 </template>
-
-<script setup >
-import { useSwiper } from 'swiper/vue';
-const slider = useSwiper();
-
-const click = () => {
-	debugger;
-}
-</script>

@@ -25,7 +25,7 @@ const props = defineProps({
 <template>
   <div class="banner-small">
     <img class="banner-small__image" :src="props.url" alt="dr dre album name"/>
-    <p class="banner-small__discount"> {{ props.discount }}% скидка </p>
+
     <p class="banner-small__description"> {{ props.description }} </p>
     <p class="banner-small__price">
       Начальная цена: <span class="banner-small__sticker"> {{ props.price }} </span>
