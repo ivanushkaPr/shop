@@ -71,9 +71,12 @@ const getBadgeText = computed(() => {
 </script>
 
 <template>
-<span :class="['base-badge', getBadgeClass]">
-	{{ text }} {{ getBadgeText }}
-</span>
+	<span :class="['base-badge', getBadgeClass]" v-if="!text">
+		{{ getBadgeText }}
+	</span>
+	<span :class="['base-badge', getBadgeClass]" v-else>
+		{{ text }}
+	</span>
 </template>
 
 <style lang="scss">
@@ -82,6 +85,7 @@ const getBadgeText = computed(() => {
 	border-radius: 2px;
 	color: #FFF;
 	text-transform: uppercase;
+	display: inline-block;
 
 	@include font(12px, 16px, 600);
 	&._hot {

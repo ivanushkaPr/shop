@@ -1,25 +1,34 @@
 <script setup>
 
-import tabsMock from '@/assets/mocks/tabs.js';
-
 const activeTab = ref(0);
 
 const onChangeTab = (index) => {
 	activeTab.value = index;
 };
+
+defineProps({
+	heading: {
+		type: String,
+		required: true,
+	},
+	config: {
+		type: Array,
+		required: true,
+	},
+});
 </script>
 
 <template>
 <section class="tabs-main">
 	<header class="tabs-main__header">
 		<heading-level-three class="tabs-main__headline">
-			Рекомендуемые товары
+			{{ heading }}
 		</heading-level-three>
 		<menu class="tabs-main__menu">
 			<ul class="tabs-main__list">
 				<li class="tabs-main__item"
 					:class="{'_active': activeTab === index}"
-					v-for="(item, index) in tabsMock"
+					v-for="(item, index) in config"
 					:key="item.caption"
 					@click="onChangeTab(index)"
 				>
@@ -30,7 +39,7 @@ const onChangeTab = (index) => {
 		</menu>
 	</header>
 	<div class="tabs-main__content">
-		<card-rich v-for="card in tabsMock[activeTab].cards" v-bind="card"/>
+		<card-rich v-for="card in config[activeTab].cards" v-bind="card"/>
 
 	</div>
 </section>

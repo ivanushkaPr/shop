@@ -1,5 +1,5 @@
 <script setup>
-const rating = ref(100);
+import tabsMock from '@/assets/mocks/tabs.js';
 </script>
 
 <template>
@@ -11,7 +11,11 @@ const rating = ref(100);
 								   deadline="До 30 сентября"
 								   src="images/slipknot-banner.png"
 		/>
-		<tabs-main class="blocks-recommendations__tabs"/>
+		<tabs-main heading="Рекомендуемые товары"
+				   class="blocks-recommendations__tabs"
+				   :config="tabsMock"
+
+		/>
 	</div>
 </template>
 

@@ -29,11 +29,11 @@ defineProps({
 
 	<p class="banner-col2-row1__discount"> {{discount}} </p>
 
-	<p class="banner-col2-row1__description"> {{description}}</p>
-	<p class="banner-col2-row1__deadline">
-		Срок акции:
-		<span class="banner-col2-row1__date"> {{deadline}} </span>
-	</p>
+	<description-medium400 class="banner-col2-row1__description">
+		{{description}}
+	</description-medium400>
+
+	<description-mark class="banner-col2-row1__deadline" prefix="Срок акции" :mark="deadline"/>
 
 	<base-action-button class="banner-col2-row1__button" text="купить"/>
 
@@ -65,18 +65,10 @@ defineProps({
 
 	&__description {
 		margin-bottom: 16px;
-		color: $gray-700;
-		@include font(16px, 24px, 400);
 	}
 
 	&__deadline {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 8px;
 		margin-bottom: 20px;
-		color: $gray-900;
-		font-weight: 500;
 	}
 
 	&__date {
