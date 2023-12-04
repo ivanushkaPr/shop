@@ -41,7 +41,7 @@ defineProps({
 					  prefix="Всего за"
 					  :mark="price + '' + currency"
 	/>
-	<base-action-button text="Купить"/>
+	<base-action-button class="banner-vertical-medium__button" text="Купить"/>
 </div>
 </template>
 
@@ -54,7 +54,6 @@ defineProps({
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 24px;
 	border-radius: 4px;
 	background: $warning-200;
 	text-align: center;
@@ -67,6 +66,17 @@ defineProps({
 	}
 	&__heading {
 		margin-bottom: 8px;
+	}
+
+	&__description {
+		margin-bottom: 16px;
+	}
+
+	&__mark {
+		margin-bottom: 16px;
+	}
+	&__button {
+		width: 100%;
 	}
 }
 </style>

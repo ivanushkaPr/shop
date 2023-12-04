@@ -1,5 +1,5 @@
 <script setup>
-const {find} = useStrapi();
+const { find } = useStrapi();
 
 const response = await find('main-page-widgets', {
 	populate: {
@@ -12,6 +12,8 @@ const response = await find('main-page-widgets', {
 	},
 });
 
+
+import BannerFullWidth from "assets/mocks/BannerFullWidth.js";
 </script>
 
 <template>
@@ -21,6 +23,8 @@ const response = await find('main-page-widgets', {
 	<blocks-recommendations class="main__recommendations" />
 	<blocks-new class="main__new"/>
 	<blocks-hits class="main__hits"/>
+	<banner-horizontal-full-width class="main__banner-full-width" v-bind="BannerFullWidth"/>
+	<blocks-overview class="main__overview"/>
 </template>
 
 <style lang="scss">
@@ -40,6 +44,18 @@ const response = await find('main-page-widgets', {
 
 		&__new {
 			margin-bottom: 88px;
+		}
+
+		&__hits {
+			margin-bottom: 72px;
+		}
+
+		&__banner-full-width {
+			margin-bottom: 72px;
+		}
+
+		&__overview {
+			margin-bottom: 72px;
 		}
 	}
 </style>

@@ -40,7 +40,6 @@ defineProps({
 	</header>
 	<div class="tabs-main__content">
 		<card-rich v-for="card in config[activeTab].cards" v-bind="card"/>
-
 	</div>
 </section>
 </template>
