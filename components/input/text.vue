@@ -30,7 +30,11 @@ const onInputHandler = (event) => {
 
 <template>
   <base-label class="input-text">
-    <base-legend class="input-text__legend" :legend="props.legend"/>
+		<div class="input-text__header">
+			<base-legend class="input-text__legend"
+									 :legend="props.legend"/>
+			<slot />
+		</div>
     <base-input :value="props.modelValue"
                 @input="onInputHandler"
                 :error="props.error"
@@ -46,8 +50,11 @@ const onInputHandler = (event) => {
     display: flex;
     flex-direction: column;
 
-    &__legend {
-      margin-bottom: 8px;
-    }
+		&__header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 8px;
+		}
   }
 </style>

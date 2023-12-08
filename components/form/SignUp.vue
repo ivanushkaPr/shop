@@ -53,9 +53,9 @@ const onRegister = async () => {
 
   const submitData = collectSubmitData();
   try {
-    const data = await register(submitData);
-    setJwtToken(data.jwt);
-    navigateTo('/');
+    // const data = await register(submitData);
+    // setJwtToken(data.jwt);
+    navigateTo('/email-verification');
   } catch (e) {
     if (e.error.message === 'Email or Username are already taken') {
       state.serverError = 'Имя или адрес электронной почты уже заняты.';
