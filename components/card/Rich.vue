@@ -1,5 +1,5 @@
 <script setup>
-import StarRating from 'vue-star-rating';
+// import StarRating from 'vue-star-rating';
 
 const props = defineProps({
 	badge: {
@@ -54,12 +54,12 @@ const rating = ref(props.rating);
 		<img class="card-rich__image" :src="src" :alt="alt"/>
 
 		<p class="card-rich__rating">
-			<star-rating v-model:rating="rating"
-						 :star-size="16"
-						 active-color="#FA8232"
-						 read-only
-						 :show-rating="false"
-			/>
+<!--			<star-rating v-model:rating="rating"-->
+<!--						 :star-size="16"-->
+<!--						 active-color="#FA8232"-->
+<!--						 read-only-->
+<!--						 :show-rating="false"-->
+<!--			/>-->
 			<span class="card-rich__votes"> {{ votes }} </span>
 		</p>
 

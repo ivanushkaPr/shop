@@ -26,7 +26,6 @@ export default defineNuxtConfig({
     css: ['~/assets/scss/base.scss'],
     plugins: [
         { src: "~/plugins/vClickOutside", ssr: false },
-        { src: "~/plugins/vueStarRating", ssr: false },
     ],
     vite: {
         css: {

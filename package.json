@@ -35,6 +35,7 @@
     "storybook": "^7.6.3"
   },
   "dependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/strapi": "^1.9.3",
     "@pinia/nuxt": "^0.5.1",
     "@vuelidate/core": "^2.0.3",

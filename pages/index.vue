@@ -1,22 +1,40 @@
 <script setup>
+
 const { find } = useStrapi();
 
-const response = await find('main-page-widgets', {
-	populate: {
-		slider: {
-			populate: '*'
-		},
-		Banner: {
-			populate: '*'
-		}
-	},
-});
+// const response = await find('main-page-widgets', {
+// 	populate: {
+// 		slider: {
+// 			populate: '*'
+// 		},
+// 		Banner: {
+// 			populate: '*'
+// 		}
+// 	},
+// });
 
+
+// import Medusa from "@medusajs/medusa-js"
+// const medusa = new Medusa({ baseUrl: 'http://localhost:9000', maxRetries: 3 })
+//
+// let result = ref(null);
+//
+// try {
+// 	medusa.products.retrieve('prod_01HGX7V7ETBJY8QK6KQ9KW2239')
+// 		.then(({ product }) => {
+// 			debugger;
+// 			console.log(product.id);
+// 			// result.value = product;
+// 		})
+// } catch (e) {
+// 	debugger;
+// }
 
 import BannerFullWidth from "assets/mocks/BannerFullWidth.js";
 </script>
 
 <template>
+	{{ result }}
 	<slider-main-page class="main__banner-slider"/>
 	<list-benefits class="main__benefits"/>
 	<blocks-categories class="main__categories" />
