@@ -7,19 +7,19 @@
           {url: '/account', title: 'Личный кабинет'},
           {title: 'Войти'}
     ]"/>
-  <div class="auth">
-	  <form-enter/>
-  </div>
+	<div class="auth">
+		<form-enter/>
+	</div>
 </template>
 
 <style lang="scss">
 .auth {
-  	margin: 0 auto;
-  	padding: 24px 300px;
-  	max-width: 1320px;
-  	display: flex;
+	margin: 0 auto;
+	padding: 24px 300px;
+	max-width: 1320px;
+	display: flex;
 	flex-direction: column;
-  	justify-content: center;
-  	align-items: center;
+	justify-content: center;
+	align-items: center;
 }
 </style>

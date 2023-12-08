@@ -2,7 +2,7 @@
 const props = defineProps({
   text: {
     type: String,
-    required: true,
+    required: false,
   },
   btnType: {
     type: String,
@@ -14,6 +14,7 @@ const props = defineProps({
 
 <template>
   <button class="action-button" :type="btnType">
+	  <slot/>
     {{ props.text }}
     <icon-arrow-right/>
   </button>

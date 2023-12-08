@@ -1,17 +1,17 @@
 <script setup>
 
-const { find } = useStrapi();
-
-// const response = await find('main-page-widgets', {
-// 	populate: {
-// 		slider: {
-// 			populate: '*'
-// 		},
-// 		Banner: {
-// 			populate: '*'
-// 		}
-// 	},
-// });
+ // const { find } = useStrapi();
+ //
+ // const response = await find('main-page-widgets', {
+ // 	populate: {
+ // 		slider: {
+ // 			populate: '*'
+ // 		},
+ // 		Banner: {
+ // 			populate: '*'
+ // 		}
+ // 	},
+ // });
 
 
 // import Medusa from "@medusajs/medusa-js"
@@ -34,7 +34,6 @@ import BannerFullWidth from "assets/mocks/BannerFullWidth.js";
 </script>
 
 <template>
-	{{ result }}
 	<slider-main-page class="main__banner-slider"/>
 	<list-benefits class="main__benefits"/>
 	<blocks-categories class="main__categories" />

@@ -43,6 +43,7 @@ const collectSubmitData = () => {
     password: state.password,
   };
 }
+
 const { register } = useStrapiAuth();
 const onRegister = async () => {
   validate();
@@ -59,7 +60,6 @@ const onRegister = async () => {
     if (e.error.message === 'Email or Username are already taken') {
       state.serverError = 'Имя или адрес электронной почты уже заняты.';
     }
-    debugger;
   }
 };
 </script>
@@ -103,8 +103,8 @@ const onRegister = async () => {
     />
 
     <input-checkbox  class="form-sign-up__confirmation">
-      Я согласен с   <base-link href="#" text="Пользовательским соглашением"/> <br> и
-      <base-link href="#" text="Политикой Конфиденциальности"/>.
+		Я согласен с   <base-link href="#" > Пользовательским соглашением </base-link> <br> и
+		<base-link href="#"> Политикой Конфиденциальности </base-link>.
     </input-checkbox>
 
 

@@ -27,7 +27,6 @@ const validate = () => {
 
 const onLoginHandler =  async () => {
   validate();
-  debugger;
   if ($v.value.$invalid) {
     return;
   }
@@ -65,7 +64,7 @@ const redirect = () => {
 
     <input-hidden class="form-sign-in__password"
                   legend="Пароль"
-                  href="#"
+                  href="/forgetPassword"
                   link-text="Забыли пароль?"
                   :error="$v.password.$error"
                   error-text="Обязательное поле"
@@ -87,7 +86,7 @@ const redirect = () => {
   .sign-in-dropdown {
     position: absolute;
 	  z-index: 2;
-    right: 0px;
+    right: 0;
     min-width: 360px;
     padding: 32px;
     border-radius: 4px;
@@ -95,7 +94,7 @@ const redirect = () => {
     border: 1px solid var(--gray-100, #E4E7E9);
     background: var(--gray-00, #FFF);
     /* Dropdown Shadow */
-    box-shadow: 0px 8px 40px 0px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.12);
 
     &__header {
       color: var(--gray-900, #191C1F);

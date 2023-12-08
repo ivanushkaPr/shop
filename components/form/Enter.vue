@@ -1,11 +1,13 @@
 <script setup>
+const route = useRoute();
+
 const formSignIn = resolveComponent('FormSignIn');
 const formSignUp = resolveComponent('FormSignUp');
 
-const currentTabName = ref('FormSignIn');
-
+const currentTabName = ref(route.params.type);
+debugger;
 const currentComponent = computed(() => {
-  if (currentTabName.value === 'FormSignIn') {
+  if (currentTabName.value === 'sign-in') {
     return formSignIn;
   } else {
     return formSignUp;
@@ -13,7 +15,7 @@ const currentComponent = computed(() => {
 });
 
 const onChangeTab = (tabName) => {
-  currentTabName.value = tabName;
+	navigateTo(`/auth/${tabName}`)
 };
 </script>
 
@@ -22,13 +24,13 @@ const onChangeTab = (tabName) => {
     <nav class="enter-form__menu">
       <ul class="enter-form__list">
         <li class="enter-form__item"
-            :class="{'enter-form__item_active-left': currentTabName === 'FormSignIn'}"
-            @click="onChangeTab('FormSignIn')">
+            :class="{'enter-form__item_active-left': currentTabName === 'sign-in'}"
+            @click="onChangeTab('sign-in')">
           Войти
         </li>
         <li class="enter-form__item"
-            :class="{'enter-form__item_active-right': currentTabName === 'FormSignUp'}"
-            @click="onChangeTab('FormSignUp')">
+            :class="{'enter-form__item_active-right': currentTabName === 'sign-up'}"
+            @click="onChangeTab('sign-up')">
           Регистрация
         </li>
       </ul>

@@ -56,14 +56,14 @@ const onLoginHandler =  async () => {
     <input-text class="form-sign-in__email"
                 legend="Электронная почта"
                 v-model="state.identifier"
-                @update:modelValue="$v.identifier.$reset"
                 :error="$v.identifier.$error"
                 error-text="Обязательное поле"
+				@update:modelValue="$v.identifier.$reset"
     />
 
     <input-hidden class="form-sign-in__password"
                   legend="Пароль"
-                  href="#"
+				  href="/forget-password"
                   link-text="Забыли пароль?"
                   :error="$v.password.$error"
                   error-text="Обязательное поле"

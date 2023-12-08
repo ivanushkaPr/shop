@@ -66,8 +66,9 @@ const shownValue = computed(() => {
                    :legend="props.legend"/>
       <base-link v-if="href"
                  :href="props.href"
-                 :text="props.linkText"
-      />
+	  >
+		  {{ props.linkText }}
+	  </base-link>
     </div>
     <div class="input-hidden__controller">
       <base-input @update:modelValue="updateValue"

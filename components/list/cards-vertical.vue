@@ -1,7 +1,6 @@
 <script setup>
 const { data: albums } = await useFetch('/api/getAlbums');
 const { Pantera: mock } = albums.value;
-debugger;
 </script>
 
 <template>

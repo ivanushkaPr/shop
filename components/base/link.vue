@@ -8,11 +8,17 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  isOrange: {
+	  type: Boolean,
+	  required: false,
+  },
 });
 </script>
 
 <template>
-  <NuxtLink class="base-link" :to="props.href"> {{ props.text }}</NuxtLink>
+  <NuxtLink class="base-link"
+			:class="isOrange && '_color-orange'"
+			:to="props.href"> <slot/> </NuxtLink>
 </template>
 
 <style lang="scss">
@@ -21,5 +27,10 @@ const props = defineProps({
     font-family: Roboto;
     @include font(14px, 20px, 500, $font-style: normal);
     text-decoration: none;
+	  cursor: pointer;
+
+	&._color-orange {
+		color: $primary-500;
+	}
   }
 </style>
