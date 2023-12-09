@@ -40,10 +40,9 @@ const onLoginHandler =  async () => {
   }
 }
 
-
 const redirect = () => {
   toggleAuthDropdownVisibility();
-  navigateTo('/auth')
+  navigateTo('/auth/sign-up')
 }
 </script>
 

@@ -18,7 +18,7 @@ const props = defineProps({
 <template>
   <NuxtLink class="base-link"
 			:class="isOrange && '_color-orange'"
-			:to="props.href"> <slot/> </NuxtLink>
+			:to="props.href"><slot/></NuxtLink>
 </template>
 
 <style lang="scss">
