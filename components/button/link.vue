@@ -18,16 +18,46 @@ const props = defineProps({
 		required: false,
 		default: '#BCA00A',
 	},
+	isOrange: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+	isGolden: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+});
+
+
+const getColor =  computed(() => {
+	let color = null;
+	if (props.isOrange) {
+		color = '#FA8232';
+	} else if (props.isGolden) {
+		color = '#EBC80C';
+	}
+	return color;
+});
+const getHoverColor = computed(() => {
+	let hoverColor = null;
+	if (props.isOrange) {
+		hoverColor = '#DE732D'
+	} else if (props.isGolden) {
+		hoverColor = '#BCA00A';
+	}
+	return hoverColor;
 });
 
 </script>
 
 <template>
 	<NuxtLink class="button-link" :to="href" :style="{
-		'--color': color,
-		'--color-hover': colorHover,
+		'--color': getColor,
+		'--color-hover': getHoverColor,
 	}">
-		<span> {{ title }} </span>
+		<span> <slot/> </span>
 		<icon-button-link-arrow />
 	</NuxtLink>
 </template>

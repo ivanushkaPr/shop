@@ -30,7 +30,9 @@ const { data: tags } = await useFetch('/api/getTags');
 			</div>
 
 			<list-vertical :items="popularPages" headline-text="Популярные разделы">
-				<button-link title="Смотреть все продукты" href="#"/>
+				<button-link is-golden href="#">
+					Смотреть все продукты
+				</button-link>
 			</list-vertical>
 
 			<list-vertical :items="quickLinks" headline-text="Быстрые ссылки"/>
