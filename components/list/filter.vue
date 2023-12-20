@@ -13,9 +13,14 @@ const props = defineProps({
 		type: Array,
 		required: true,
 	},
+	modelValue: {
+		type: Array,
+		required: true,
+	}
 });
 
 const query = ref('');
+const state = ref(props.modelValue);
 
 const filteredItems = computed(() => {
 	return props.items.filter((item) => {
@@ -24,6 +29,7 @@ const filteredItems = computed(() => {
 		return name.includes(queryStr);
 	})
 });
+
 </script>
 
 <template>
@@ -32,7 +38,7 @@ const filteredItems = computed(() => {
 		<input-search class="list-filter__input" v-model:model-value="query"/>
 		<transitions-list class="list-filter__list">
 			<li class="list-filter__item" v-for="(item, index) in filteredItems" :key="index">
-				<input-checkbox>
+				<input-checkbox v-model="state">
 					<span class="list-filter__item"> {{ item.name }} </span>
 				</input-checkbox>
 			</li>

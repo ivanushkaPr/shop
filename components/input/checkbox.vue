@@ -1,9 +1,26 @@
 <script setup>
+const props = defineProps({
+	modelValue: {},
+	id: {},
+	name: {},
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const onChangeHandler = (event) => {
+	debugger;
+	emit('update:modelValue', { checked: event.target.checked, });
+};
+
 </script>
 
 <template>
   <label class="checkbox">
-    <input class="checkbox__input" type="checkbox"/>
+    <input class="checkbox__input"
+					 :value="modelValue"
+					 :true-value="props.name"
+					 @change="onChangeHandler"
+					 type="checkbox"/>
     <div class="checkbox__custom"/>
     <p class="checkbox__text">
       <slot/>

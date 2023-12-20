@@ -31,12 +31,13 @@ const emits = defineEmits(['click']);
   border: 2px solid $primary-100;
 
   color: $primary-500;
-  font-family: Roboto;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.168px;
   text-transform: uppercase;
   transition: background-color 0.3s, border-color 0.3s;
+
+	cursor: pointer;
 
   &:hover {
     border-color: $primary-600;

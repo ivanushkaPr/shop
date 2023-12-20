@@ -16,7 +16,9 @@ const props = defineProps({
   <button class="action-button" :type="btnType">
 	  <slot/>
     {{ props.text }}
-    <icon-arrow-right/>
+		<slot name="icon">
+			<icon-arrow-right/>
+		</slot>
   </button>
 </template>
 
@@ -38,6 +40,7 @@ const props = defineProps({
   letter-spacing: 0.168px;
   text-transform: uppercase;
   transition: background 0.3s;
+	cursor: pointer;
 
   &:hover {
     background: var(--primary-600, #DE732D);

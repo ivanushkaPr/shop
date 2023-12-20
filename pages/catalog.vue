@@ -1,17 +1,39 @@
 <script setup>
 const query = ref('');
-
-import {storeToRefs} from 'pinia';
-
-import {useMenuStore} from "~/stores/menu.js";
-
-const menuStore = useMenuStore();
-const {parentCategories} = storeToRefs(menuStore);
-const {setCategories, setParentCategories} = menuStore;
+const { setCategories, setParentCategories, parentCategories, categories } = await useMenu()
 
 const client = useMedusaClient();
 
+const filters = reactive(
+	{
+		singers: [],
+		genres: [],
+		labels: [],
+	}
+);
+
 const fetchedProducts = ref(null);
+
+const getCategories = async () => {
+	try {
+		const {product_categories} = await client.productCategories.list();
+		setCategories(product_categories);
+		setParentCategories(product_categories.filter((category) => {
+			return category.parent_category === null;
+		}));
+	} catch (e) {
+
+	}
+}
+
+watchEffect(async () => {
+	const {products} = await client.products.list({
+		q: query.value,
+	});
+	await getCategories();
+	fetchedProducts.value = products;
+});
+
 const getCardProps = (product) => {
 	return {
 		src: product.thumbnail,
@@ -23,26 +45,6 @@ const getCardProps = (product) => {
 	}
 }
 
-const getCategories = async () => {
-	try {
-		const {product_categories } = await client.productCategories.list();
-		setCategories(product_categories);
-		setParentCategories(product_categories.filter((category) => {
-			return category.parent_category === null;
-		}));
-	} catch (e) {
-
-	}
-}
-
-watchEffect(async () => {
-	const { products } = await client.products.list({
-		q: query.value,
-	});
-	await getCategories();
-	fetchedProducts.value = products;
-});
-
 </script>
 
 <template>
@@ -50,11 +52,13 @@ watchEffect(async () => {
 		<div class="catalog__filters">
 			<list-filter class="catalog__list"
 									 v-for="(category, index) in parentCategories"
+									 v-model="filters[category.handle]"
 									 :key="index"
 									 :caption="category.name"
 									 :items="category.category_children"
 			>
 			</list-filter>
+
 		</div>
 		<div class="catalog__feed">
 			<div class="catalog__filters">

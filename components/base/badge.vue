@@ -50,7 +50,7 @@ const getBadgeText = computed(() => {
 			break;
 		}
 		case('discount'): {
-			badgeText  = 'off';
+			badgeText  = 'скидка';
 			break;
 		}
 		case('sale'): {
