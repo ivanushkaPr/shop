@@ -7,41 +7,42 @@ const state = reactive({
 
 import { useAuthStore } from "~/stores/auth.js";
 const store = useAuthStore();
-const { setName } = store;
+const { setCustomer } = store;
 
 
 import useVuelidate from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { required, email } from "@vuelidate/validators";
 const rules = computed(() => {
-  const localRules = {
-    identifier: { required },
+  return {
+    identifier: { required, email },
     password: { required }
   };
-
-  return localRules;
 });
 
 const $v = useVuelidate(rules, state);
 
-const validate = () => {
+const isInvalid = () => {
   $v.value.$touch()
+	return $v.value.$invalid;
 };
 
-const { login } = useStrapiAuth();
+const client = useMedusaClient();
 const onLoginHandler =  async () => {
-  validate();
-  if ($v.value.$invalid) {
+  if (isInvalid()) {
     return;
   }
 
   try {
-    const data = await login({identifier: state.identifier, password: state.password});
-    setName(data.user.value.username);
-    navigateTo('/account');
+		const { customer } = await client.auth.authenticate({
+			email: state.identifier,
+			password: state.password,
+		});
+		if (customer.id) {
+			setCustomer(customer);
+			navigateTo('/');
+		}
   } catch(e) {
-    if (e.error.message === "Invalid identifier or password") {
-      state.serverError = 'Неправильное имя пользователя или пароль.';
-    }
+		state.serverError = 'Неправильное имя пользователя или пароль.';
   }
 }
 </script>
@@ -58,7 +59,7 @@ const onLoginHandler =  async () => {
                 v-model="state.identifier"
                 :error="$v.identifier.$error"
                 error-text="Обязательное поле"
-				@update:modelValue="$v.identifier.$reset"
+								@update:modelValue="$v.identifier.$reset"
     />
 
     <input-hidden class="form-sign-in__password"

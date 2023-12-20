@@ -28,6 +28,11 @@ const props = defineProps({
 		required: false,
 		default: false,
 	},
+	isBlue: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
 });
 
 
@@ -37,6 +42,8 @@ const getColor =  computed(() => {
 		color = '#FA8232';
 	} else if (props.isGolden) {
 		color = '#EBC80C';
+	} else if (props.isBlue) {
+		color = '#2DA5F3';
 	}
 	return color;
 });
@@ -46,6 +53,8 @@ const getHoverColor = computed(() => {
 		hoverColor = '#DE732D'
 	} else if (props.isGolden) {
 		hoverColor = '#BCA00A';
+	} else if (props.isBlue) {
+		hoverColor = '#2484C2';
 	}
 	return hoverColor;
 });

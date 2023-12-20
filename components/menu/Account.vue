@@ -56,12 +56,21 @@ const menu = [
 		icon: Settings,
 		href: '/account/settings',
 	},
-	{
-		text: 'Выйти',
-		icon: Exit,
-		href: '/account/exit',
-	},
 ];
+
+const client = useMedusaClient();
+
+const logOut = async () => {
+	await client.auth.deleteSession()
+		.then(() => {
+			debugger
+			// success
+			navigateTo('/auth/sign-in');
+		}).catch((error) => {
+		// error
+		debugger;
+	});
+};
 
 
 const route = useRoute();
@@ -81,6 +90,12 @@ debugger;
 		>
 			<component :is="item.icon" />
 			{{ item.text }}
+		</li>
+		<li class="menu-account__item"
+				@click="logOut"
+		>
+			<Exit />
+			Выйти
 		</li>
 	</ul>
 </nav>
@@ -106,6 +121,7 @@ debugger;
 		gap: 12px;
 		padding: 10px 24px;
 		color: $gray-700;
+		cursor: pointer;
 
 		& svg * {
 			stroke: $gray-700 !important;

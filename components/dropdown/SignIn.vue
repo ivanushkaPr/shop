@@ -1,42 +1,54 @@
 <script setup>
 import { useCounterStore } from "~/stores/test.js";
-const store = useCounterStore();
-const { toggleAuthDropdownVisibility, closeAuthDropdown } = store;
+const counterStore = useCounterStore();
+const { toggleAuthDropdownVisibility, closeAuthDropdown } = counterStore;
+
+import { useAuthStore } from "~/stores/auth.js";
+const userStore = useAuthStore();
+const { setCustomer } = userStore;
 
 const state = reactive({
   identifier: '',
   password: '',
+	serverError: '',
 })
 
 import useVuelidate from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { required, email } from "@vuelidate/validators";
 const rules = computed(() => {
-  const localRules = {
-    identifier: { required },
+  return {
+    identifier: { required, email },
     password: { required }
   };
-
-  return localRules;
 });
 
 const $v = useVuelidate(rules, state);
 
-const validate = () => {
+const isInvalid = () => {
   $v.value.$touch()
+	return $v.value.$invalid;
 };
 
+const client = useMedusaClient();
+
 const onLoginHandler =  async () => {
-  validate();
-  if ($v.value.$invalid) {
+	debugger;
+  if (isInvalid()) {
     return;
   }
 
   try {
-    const data = await login({identifier: state.identifier.value, password: state.password.value});
-    setName(data.user.value.username);
-    navigateTo('/account');
-  } catch(e) {
+		const { customer } = await client.auth.authenticate({
+			email: state.identifier,
+			password: state.password,
+		});
 
+		if (customer.id) {
+			setCustomer(customer);
+			navigateTo('/account');
+		}
+  } catch(e) {
+		state.serverError = 'Неправильное имя пользователя или пароль.';
   }
 }
 
@@ -52,6 +64,10 @@ const redirect = () => {
         v-click-outside="closeAuthDropdown">
 
     <h3 class="sign-in-dropdown__header"> Войти </h3>
+
+		<base-error v-if="state.serverError"
+								class="form-sign-in__error"
+								:text="state.serverError" />
 
     <input-text class="form-sign-in__email"
                 legend="Электронная почта"
@@ -76,8 +92,9 @@ const redirect = () => {
     <text-divider text="У вас нет аккаунта?"/>
 
     <base-secondary-button class="sign-in-dropdown__register-button"
-                           text="Зарегистрироваться"
-                           @click="redirect"/>
+													 @click="redirect">
+			Зарегистрироваться
+		</base-secondary-button>
   </form>
 </template>
 

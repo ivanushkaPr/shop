@@ -5,7 +5,7 @@ export default defineNuxtConfig({
         '@nuxtjs/google-fonts',
         'nuxt-swiper',
         '@pinia/nuxt',
-        '@nuxtjs/storybook',
+        'nuxt-medusa',
     ],
     devServer: {
         port: 8000,

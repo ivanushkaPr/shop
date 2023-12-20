@@ -48,6 +48,7 @@ const billingMock2 = [
 		<div>
 			<section-account-user class="dashboard__user"/>
 			<section-account-payment class="dashboard__credit-cards"/>
+			<section-account-orders class="dashboard__orders-table"/>
 		</div>
 	</div>
 </template>
@@ -60,6 +61,14 @@ const billingMock2 = [
 	margin-top: 40px;
 
 	&__user {
+		margin-bottom: 24px;
+	}
+
+	&__credit-cards {
+		margin-bottom: 24px;
+	}
+
+	&__orders-table {
 		margin-bottom: 24px;
 	}
 }

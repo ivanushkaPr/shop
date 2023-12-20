@@ -1,24 +1,27 @@
 <script setup>
-import SearchInput from "~/components/base/search-input.vue";
-
 import {storeToRefs} from 'pinia';
-import {useCounterStore} from "~/stores/test.js";
 
-const store = useCounterStore();
-const {authDropdownVisibility} = storeToRefs(store);
-const {toggleAuthDropdownVisibility} = store;
+import {useCounterStore} from "~/stores/test.js";
+const authStore = useCounterStore();
+const { authDropdownVisibility } = storeToRefs(authStore);
+const { toggleAuthDropdownVisibility } = authStore;
+
+import { useAuthStore } from "~/stores/auth.js";
+const userStore = useAuthStore();
+const { customer } = userStore ;
+
 </script>
 
 <template>
 	<nav class="header-middle">
-		<base-brand class="header-middle__logotype"/>
+		<base-brand @click="navigateTo('/')" class="header-middle__logotype"/>
 
-		<search-input :placeholder="'Искать товары'"/>
+		<form-search-input :placeholder="'Искать товары'"/>
 		<div class="header-middle__menu">
 			<icon-cart/>
 			<icon-heart/>
 			<div class="header-middle__sign-in-form">
-				<icon-user @click="toggleAuthDropdownVisibility"/>
+				<icon-user @click="customer ? navigateTo('/account/dashboard') : toggleAuthDropdownVisibility()"/>
 				<dropdown-sign-in v-if="authDropdownVisibility"/>
 			</div>
 		</div>

@@ -20,11 +20,13 @@ const props = defineProps({
 	},
 	rating: {
 		type: Number,
-		required: true,
+		required: false,
+		default: 0,
 	},
 	votes: {
 		type: Number,
-		required: true,
+		required: false,
+		default: 0,
 	},
 	artist: {
 		type: String,
@@ -38,14 +40,20 @@ const props = defineProps({
 		type: Number,
 		required: true,
 	},
-	currency: {
+	currencyCode: {
 		type: String,
 		required: false,
-		default: '₽',
+		default: 'rub',
 	},
 });
 
 const rating = ref(props.rating);
+
+const getCurrencySymbol = computed(() => {
+	if (props.currencyCode === 'rub') {
+		return '₽';
+	}
+})
 </script>
 
 <template>
@@ -60,18 +68,18 @@ const rating = ref(props.rating);
 <!--						 read-only-->
 <!--						 :show-rating="false"-->
 <!--			/>-->
-			<span class="card-rich__votes"> {{ votes }} </span>
+			<span v-if="votes" class="card-rich__votes"> {{ votes }} </span>
 		</p>
 
-		<p class="card-rich__artist">
-			{{ artist }}
-		</p>
 		<p class="card-rich__album">
 			{{ album }}
 		</p>
+		<p class="card-rich__artist">
+			{{ artist }}
+		</p>
 
 		<p class="card-rich__price">
-			{{price}} {{currency}}
+			{{ price.toLocaleString('ru-RU') }} {{ getCurrencySymbol }}
 		</p>
 	</div>
 </template>
@@ -110,11 +118,11 @@ const rating = ref(props.rating);
 	}
 
 	&__artist {
-		@include font(18px, 27px, 600);
+		@include font(16px, 24px, 400);
 	}
 
 	&__album {
-		@include font(16px, 24px, 400);
+		@include font(18px, 27px, 600);
 	}
 
 	&__price {
