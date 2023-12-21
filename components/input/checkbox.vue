@@ -9,7 +9,7 @@ const emit = defineEmits(['update:modelValue']);
 
 const onChangeHandler = (event) => {
 	debugger;
-	emit('update:modelValue', { checked: event.target.checked, });
+	emit('update:modelValue',  event.target.checked);
 };
 
 </script>
@@ -17,9 +17,8 @@ const onChangeHandler = (event) => {
 <template>
   <label class="checkbox">
     <input class="checkbox__input"
-					 :value="modelValue"
-					 :true-value="props.name"
 					 @change="onChangeHandler"
+					 :checked="modelValue"
 					 type="checkbox"/>
     <div class="checkbox__custom"/>
     <p class="checkbox__text">

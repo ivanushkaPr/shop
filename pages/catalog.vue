@@ -4,14 +4,6 @@ const { setCategories, setParentCategories, parentCategories, categories } = awa
 
 const client = useMedusaClient();
 
-const filters = reactive(
-	{
-		singers: [],
-		genres: [],
-		labels: [],
-	}
-);
-
 const fetchedProducts = ref(null);
 
 const getCategories = async () => {
@@ -26,13 +18,36 @@ const getCategories = async () => {
 	}
 }
 
+const filters = ref(null);
+
+watch(parentCategories, () => {
+	filters.value = parentCategories.value.reduce((filters, category) => {
+		filters[category.handle] = category.category_children.map((_) => false);
+		return filters;
+	}, {});
+});
+
 watchEffect(async () => {
-	const {products} = await client.products.list({
+	const { products } = await client.products.list({
 		q: query.value,
 	});
 	await getCategories();
 	fetchedProducts.value = products;
 });
+
+const selectedCategories = computed(() => {
+	const selectedCategoriesNames = [];
+	Object.entries(filters.value).forEach(([key, filters], parentIndex) => {
+		filters.forEach((isFiltersSelected, index) => {
+			if (isFiltersSelected) {
+				const selectedCategory = parentCategories.value[parentIndex].category_children[index].name;
+				selectedCategoriesNames.push(selectedCategory);
+			}
+		});
+	});
+	return selectedCategoriesNames;
+});
+
 
 const getCardProps = (product) => {
 	return {
