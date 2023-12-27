@@ -63,12 +63,9 @@ const client = useMedusaClient();
 const logOut = async () => {
 	await client.auth.deleteSession()
 		.then(() => {
-			debugger
 			// success
 			navigateTo('/auth/sign-in');
 		}).catch((error) => {
-		// error
-		debugger;
 	});
 };
 
@@ -77,7 +74,6 @@ const route = useRoute();
 const isActive = (href) => {
 	return route.href === href;
 }
-debugger;
 </script>
 
 <template>

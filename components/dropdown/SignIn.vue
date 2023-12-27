@@ -32,7 +32,6 @@ const isInvalid = () => {
 const client = useMedusaClient();
 
 const onLoginHandler =  async () => {
-	debugger;
   if (isInvalid()) {
     return;
   }

@@ -8,7 +8,6 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const onChangeHandler = (event) => {
-	debugger;
 	emit('update:modelValue',  event.target.checked);
 };
 

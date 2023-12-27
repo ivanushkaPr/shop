@@ -17,7 +17,6 @@ const rules = computed(() => {
 const $v = useVuelidate(rules, state);
 
 const validate = () => {
-	debugger
 	$v.value.$touch()
 };
 

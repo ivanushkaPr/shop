@@ -1,6 +1,4 @@
 <script setup>
-// import StarRating from 'vue-star-rating';
-
 const props = defineProps({
 	badge: {
 		type: String,
@@ -45,6 +43,17 @@ const props = defineProps({
 		required: false,
 		default: 'rub',
 	},
+	fullData: {
+		type: Object,
+	},
+	id: {
+		type: String,
+		required: true,
+	},
+	variantId: {
+		type: String,
+		required: true,
+	},
 });
 
 const rating = ref(props.rating);
@@ -53,30 +62,34 @@ const getCurrencySymbol = computed(() => {
 	if (props.currencyCode === 'rub') {
 		return '₽';
 	}
-})
+});
 
 const isMouseOver = ref(false);
-
 const onMouseOver = (event) => {
-	debugger;
 	if (event.target.closest('.card-rich')) {
 		isMouseOver.value = true ;
 	}
 }
-
-const onMouseOut = (event) => {
+const onMouseOut = () => {
 	isMouseOver.value = false;
 }
 
-// import { useModalStore } from "~/stores/modal.js";
-//
-// const menuStore = useModalStore();
-// const { setModalVisibility } = menuStore;
+const client = useMedusaClient();
+const { cartId, setCart } = useCart();
 
-const {setModalVisibility} = useModal();
+const onAddToCart = async (variant_id) => {
+	await useAddProduct(variant_id, cartId, setCart)
+}
 
-const onShowModal = () => {
-	setModalVisibility(true);
+const { setModalVisibility, setProduct } = useModal();
+const onShowModal = async () => {
+	try {
+		const { product } = await client.products.retrieve(props.id);
+		setProduct(product);
+		setModalVisibility(true);
+	} catch (e) {
+
+	}
 };
 
 </script>
@@ -87,8 +100,8 @@ const onShowModal = () => {
 		<transitions-fade>
 			<div v-if="isMouseOver" class="card-rich__overlay">
 				<ul class="card-rich__list">
-					<li class="card-rich__item _cart"> <icon-cart-black /></li>
-					<li class="card-rich__item _eye" @click="onShowModal"> <icon-eye-black /></li>
+					<li class="card-rich__item _cart" @click.stop="onAddToCart(variantId)"> <icon-cart-black /></li>
+					<li class="card-rich__item _eye" @click.stop="onShowModal"> <icon-eye-black /></li>
 				</ul>
 			</div>
 		</transitions-fade>
@@ -96,12 +109,6 @@ const onShowModal = () => {
 		<img class="card-rich__image" :src="src" :alt="alt"/>
 
 		<p class="card-rich__rating">
-<!--			<star-rating v-model:rating="rating"-->
-<!--						 :star-size="16"-->
-<!--						 active-color="#FA8232"-->
-<!--						 read-only-->
-<!--						 :show-rating="false"-->
-<!--			/>-->
 			<span v-if="votes" class="card-rich__votes"> {{ votes }} </span>
 		</p>
 

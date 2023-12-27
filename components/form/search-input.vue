@@ -9,7 +9,6 @@ const props = defineProps({
 const value = ref('');
 
 const redirectToCatalog = () => {
-	debugger;
 	navigateTo('/catalog');
 }
 </script>

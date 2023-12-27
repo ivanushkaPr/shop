@@ -35,7 +35,7 @@ const filteredItems = computed(() => {
 	<div class="list-filter">
 		<p class="list-filter__caption">{{ caption }}</p>
 		<input-search class="list-filter__input" v-model:model-value="query"/>
-		<transitions-list class="list-filter__list">
+		<transitions-list class="list-filter__list" tagName="ul">
 			<li class="list-filter__item" v-for="(item, index) in filteredItems" :key="index">
 				<input-checkbox v-model="modelValue[index]">
 					<span class="list-filter__item"> {{ item.name }} </span>

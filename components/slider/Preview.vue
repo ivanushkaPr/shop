@@ -57,6 +57,7 @@ const onImageSelected = (src) => {
 <style lang="scss" scoped>
 
 .slider-preview {
+	width: 616px;
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
@@ -65,12 +66,17 @@ const onImageSelected = (src) => {
 		max-width: 616px;
 		max-height: 464px;
 		margin-bottom: 24px;
+
+		border-radius: 4px;
+		border: 1px solid var(--Gray-100, #E4E7E9);
+		padding: 10px;
 	}
 
 	& .slider-row {
 		position: relative;
 		margin: 0 auto;
 		max-width: 616px;
+		min-width: 100%;
 
 		.swiper {
 			width: 100%;

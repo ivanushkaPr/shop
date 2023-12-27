@@ -49,10 +49,18 @@ const emits = defineEmits(['click']);
 		border-color: $secondary-500;
 		color: $secondary-500;
 
+		& path {
+			stroke: $secondary-500;
+		}
+
 		&:hover {
 			color: $secondary-600;
 			border-color: $secondary-600;
 			background: $secondary-50;
+
+			& path {
+				stroke: $secondary-600;
+			}
 		}
 	}
 }

@@ -3,7 +3,7 @@ defineProps({
 	tagName: {
 		type: String,
 		required: false,
-		default: 'ul',
+		default: 'div',
 	},
 })
 </script>

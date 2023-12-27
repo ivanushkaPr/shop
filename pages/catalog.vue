@@ -1,11 +1,7 @@
 <script setup>
-const query = ref('');
-const { setCategories, setParentCategories, parentCategories, categories } = await useMenu()
-
 const client = useMedusaClient();
-
 const fetchedProducts = ref(null);
-
+const {setCategories, setParentCategories, parentCategories, categories} = await useMenu()
 const getCategories = async () => {
 	try {
 		const {product_categories} = await client.productCategories.list();
@@ -18,8 +14,11 @@ const getCategories = async () => {
 	}
 }
 
-const filters = ref(null);
+onMounted(async () => {
+	await getCategories();
+})
 
+const filters = ref(null);
 watch(parentCategories, () => {
 	filters.value = parentCategories.value.reduce((filters, category) => {
 		filters[category.handle] = category.category_children.map((_) => false);
@@ -27,36 +26,42 @@ watch(parentCategories, () => {
 	}, {});
 });
 
+const selectedCategories = computed(() => {
+	const selectedCategoriesIds = [];
+	if (filters.value) {
+		Object.entries(filters.value).forEach(([key, filters], parentIndex) => {
+			filters.forEach((isFiltersSelected, index) => {
+				if (isFiltersSelected) {
+					const selectedCategory = parentCategories.value[parentIndex].category_children[index].id;
+					selectedCategoriesIds.push(selectedCategory);
+				}
+			});
+		});
+	}
+	return selectedCategoriesIds;
+});
+
+
+const query = ref('');
 watchEffect(async () => {
-	const { products } = await client.products.list({
+	const {products} = await client.products.list({
 		q: query.value,
+		category_id: selectedCategories.value,
+		include_category_children: false,
 	});
-	await getCategories();
 	fetchedProducts.value = products;
 });
-
-const selectedCategories = computed(() => {
-	const selectedCategoriesNames = [];
-	Object.entries(filters.value).forEach(([key, filters], parentIndex) => {
-		filters.forEach((isFiltersSelected, index) => {
-			if (isFiltersSelected) {
-				const selectedCategory = parentCategories.value[parentIndex].category_children[index].name;
-				selectedCategoriesNames.push(selectedCategory);
-			}
-		});
-	});
-	return selectedCategoriesNames;
-});
-
 
 const getCardProps = (product) => {
 	return {
 		src: product.thumbnail,
 		artist: product.subtitle,
 		album: product.title,
-		price: product.variants[0].prices[0].amount,
-		currency: product.variants[0].prices[0].currency_code,
+		price: product.variants[0]?.prices[0].amount || 0,
+		currency: product.variants[0]?.prices[0].currency_code || 0,
 		badge: product?.tags[0]?.value,
+		id: product.id,
+		variantId: product.variants[0]?.id,
 	}
 }
 
@@ -64,7 +69,7 @@ const getCardProps = (product) => {
 
 <template>
 	<section class="catalog">
-		<div class="catalog__filters">
+		<div class="catalog__filters" v-if="filters">
 			<list-filter class="catalog__list"
 									 v-for="(category, index) in parentCategories"
 									 v-model="filters[category.handle]"
@@ -88,8 +93,8 @@ const getCardProps = (product) => {
 
 					</div>
 				</header>
-				<transitions-list tag="div" class="catalog__search-result">
-					<card-rich v-for="product in fetchedProducts" v-bind="getCardProps(product)" :key="product.album"/>
+				<transitions-list tagName="div" class="catalog__search-result">
+					<card-rich @click="navigateTo(`/product-detail/${product.id}`)" v-for="product in fetchedProducts" :key="product.album" v-bind="getCardProps(product)"/>
 				</transitions-list>
 
 			</div>
@@ -115,6 +120,11 @@ const getCardProps = (product) => {
 		display: flex;
 		gap: 16px;
 		flex-wrap: wrap;
+	}
+
+	&__link {
+		text-decoration: none;
+		all: unset;
 	}
 }
 </style>

@@ -5,7 +5,6 @@ const formSignIn = resolveComponent('FormSignIn');
 const formSignUp = resolveComponent('FormSignUp');
 
 const currentTabName = ref(route.params.type);
-debugger;
 const currentComponent = computed(() => {
   if (currentTabName.value === 'sign-in') {
     return formSignIn;

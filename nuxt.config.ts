@@ -20,7 +20,7 @@ export default defineNuxtConfig({
     },
     googleFonts: {
         families: {
-            Roboto: true,
+            Roboto: [200, 300, 400, 500, 600, 700, 800],
         }
     },
     css: ['~/assets/scss/base.scss'],
