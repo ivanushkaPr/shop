@@ -1,8 +1,20 @@
 <script setup>
-import { useCartStore } from "~/stores/cart.js";
-import { storeToRefs } from "pinia";
-const cartStore = useCartStore();
-const { cart } = storeToRefs(cartStore);
+const {setCart, cart, cartId} = useCart();
+
+
+const client = useMedusaClient();
+const onRemoveLine = (cartId, lineId) => {
+
+client.carts.lineItems.delete(cartId, lineId)
+	.then(({cart}) => {
+		setCart(cart);
+		console.log(cart.id);
+	})
+	.catch((error) => {
+		console.log(error);
+	});
+}
+
 </script>
 
 <template>
@@ -12,48 +24,54 @@ const { cart } = storeToRefs(cartStore);
 		</h1>
 
 		<table class="cart-table__table">
-				<thead class="cart-table__thead">
-					<tr class="cart-table__tr">
-						<th class="cart-table__th"> Товары </th>
-						<th class="cart-table__th"> Цена </th>
-						<th class="cart-table__th"> Количество </th>
-						<th class="cart-table__th"> Цена </th>
-					</tr>
-				</thead>
+			<thead class="cart-table__thead">
+			<tr class="cart-table__tr">
+				<th class="cart-table__th"> Товары</th>
+				<th class="cart-table__th"> Цена</th>
+				<th class="cart-table__th"> Количество</th>
+				<th class="cart-table__th"> Цена</th>
+			</tr>
+			</thead>
 
-			<tbody class="cart-table__tbody">
-				<tr class="cart-table__tr" v-for="item in cart.items">
-					<td class="cart-table__td _flexed">
-						<button-remove class="cart-table__remove" @remove="() => {
-							defineAppConfig;
-							console.log('product removed')
-						}"/>
-						<img class="cart-table__thumbnail" :src="item.thumbnail"/>
-						{{ item.title }}
-					</td>
+			<tbody class="cart-table__tbody" v-if="cart.items.length">
+			<tr class="cart-table__tr" v-for="item in cart.items">
+				<td class="cart-table__td _flexed">
+					<button-remove class="cart-table__remove" @remove="onRemoveLine(cartId, item.id)"/>
+					<img class="cart-table__thumbnail" :src="item.thumbnail"/>
+					{{ item.title }}
+				</td>
 
-					<td class="cart-table__td ">
-						{{ item.unit_price }}
-					</td>
+				<td class="cart-table__td ">
+					{{ item.unit_price }}
+				</td>
 
-					<td class="cart-table__td">
-						<button-counter :sizeMd="true" :amount="item.quantity"/>
-					</td>
+				<td class="cart-table__td">
+					<button-counter :sizeMd="true"
+													:amount="item.quantity"
+													@add="useAddProduct(cartId, item.variant_id, setCart)"
+													@remove="useRemoveProduct(cartId, item.id, item.quantity, setCart)"/>
+				</td>
 
-					<td class="cart-table__td _price">
-						{{ item.total }}
-					</td>
-				</tr>
+				<td class="cart-table__td _price">
+					{{ item.total }}
+				</td>
+			</tr>
+			</tbody>
+			<tbody class="cart-table__tbody _cta" v-else>
+			<tr>
+				<td colspan="5" rowspan="5"> 		Нет выбранных товаров </td>
+			</tr>
 			</tbody>
 		</table>
 
 		<div class="cart-table__controls">
-			<base-secondary-button :is-blue="true">
-				<icon-arrow-prev-lined /> Назад к покупкам
+			<base-secondary-button @click="navigateTo('/catalog')" :is-blue="true">
+				<icon-arrow-prev-lined/>
+				Назад к покупкам
 			</base-secondary-button>
 
 			<base-secondary-button :is-blue="true">
-				 Обновить корзину
+				Обновить корзину
 			</base-secondary-button>
 		</div>
 	</div>
@@ -97,12 +115,24 @@ const { cart } = storeToRefs(cartStore);
 	}
 
 	&__tbody {
-		& tr:first-child td{
+		& tr:first-child td {
 			padding-top: 24px;
 		}
 
-		& tr:last-child td{
+		& tr:last-child td {
 			padding-bottom: 24px;
+		}
+
+		&._cta {
+			& tr {
+				text-align: center;
+			}
+
+			& td {
+				@include font(28px, 40px, 400);
+				padding: 24px;
+				margin: 24px;
+			}
 		}
 	}
 

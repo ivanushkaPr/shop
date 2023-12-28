@@ -39,6 +39,7 @@ const onInputHandler = (event) => {
                 @input="onInputHandler"
                 :error="props.error"
     />
+
     <transitions-fade>
       <base-error v-if="error" :text="props.errorText"/>
     </transitions-fade>

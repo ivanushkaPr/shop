@@ -7,6 +7,9 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'nuxt-medusa',
     ],
+    app: {
+        pageTransition: { name: 'page', mode: 'out-in' }
+    },
     devServer: {
         port: 8000,
     },

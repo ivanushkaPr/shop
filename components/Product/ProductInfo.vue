@@ -53,7 +53,7 @@ const releaseDate = computed(() => {
 	return product.value?.metadata?.releaseDate;
 })
 
-const { cartId, setCart } = useCart();
+const { cartId, cart, setCart } = useCart();
 
 const onAddToCart = (variant_id) => {
 	useAddProduct(variant_id, cartId, setCart)
@@ -63,7 +63,20 @@ const { setModalVisibility } = useModal();
 const redirectToShoppingCart = () => {
 	setModalVisibility(false);
 	navigateTo('/shopping-cart');
+};
+
+const getProduct = computed(() => {
+	return cart?.value?.items?.find(item => item.variant_id === product.value.variants[0].id);
+})
+
+const getAmount = computed(() => {
+	return getProduct?.value?.quantity;
+});
+
+const removeProduct = () => {
+	useRemoveProduct(cartId.value, getProduct.value.id, getProduct.value.quantity, setCart)
 }
+
 </script>
 
 <template>
@@ -100,8 +113,10 @@ const redirectToShoppingCart = () => {
 
 		<hr class="product-info__divider"/>
 		<div class="product-info__controls">
-			<button-counter />
-			<base-action-button @click="onAddToCart(product.variants[0].id)">
+			<button-counter @add="useAddProduct(cartId, product.variants[0].id, setCart)"
+											:amount="getAmount"
+											@remove="removeProduct()"/>
+			<base-action-button @click="useAddProduct(cartId, product.variants[0].id, setCart)">
 				<template v-slot:default> Добавить в корзину </template>
 				<template v-slot:icon> <icon-cart class="product-info__icon"/> </template>
 			</base-action-button>

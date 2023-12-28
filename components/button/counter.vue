@@ -3,7 +3,7 @@ const props = defineProps({
 	amount: {
 		type: Number,
 		required: false,
-		default: 1,
+		default: 0,
 	},
 	sizeMd: {
 		type: Boolean,
@@ -12,15 +12,14 @@ const props = defineProps({
 },
 });
 
-
-const counter = ref(props.amount);
+const emits = defineEmits(['add', 'remove']);
 
 const onAdd = () => {
-	counter.value = counter.value + 1;
+	emits('add');
 };
 const onRemove = () => {
-	if (counter.value >= 2) {
-		counter.value = counter.value - 1;
+	if (props.amount >= 1) {
+		emits('remove');
 	}
 };
 </script>
@@ -36,7 +35,7 @@ const onRemove = () => {
 		<p class="button-counter__counter"
 			 :class="sizeMd && '_size-md'"
 		>
-			{{ counter }}
+			{{ amount }}
 		</p>
 		<button class="button-counter__button"
 						:class="sizeMd && '_size-md'"

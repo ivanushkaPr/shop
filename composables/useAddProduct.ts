@@ -1,7 +1,8 @@
-export const useAddProduct = async (variantId: string, cartId: Ref<string | null>, cb: Function) => {
+export const useAddProduct = async (cartId: string, variantId: string, cb: Function) => {
     const client = useMedusaClient();
-    if (cartId?.value) {
-        const { cart } = await client.carts.lineItems.create(cartId.value, {
+    debugger;
+    if (cartId) {
+        const { cart } = await client.carts.lineItems.create(cartId, {
             variant_id: variantId,
             quantity: 1,
         })

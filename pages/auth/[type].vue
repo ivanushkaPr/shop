@@ -2,13 +2,15 @@
 </script>
 
 <template>
-	<base-breadcrumbs :breadcrumbs="[
+	<div>
+		<base-breadcrumbs :breadcrumbs="[
           {url: '/', title: 'Главная'},
           {url: '/account', title: 'Личный кабинет'},
           {title: 'Войти'}
     ]"/>
-	<div class="auth">
-		<form-enter/>
+		<div class="auth">
+			<form-enter/>
+		</div>
 	</div>
 </template>
 

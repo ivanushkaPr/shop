@@ -3,13 +3,15 @@
 </script>
 
 <template>
-	<base-breadcrumbs :breadcrumbs="[
+	<div>
+		<base-breadcrumbs :breadcrumbs="[
           {url: '/', title: 'Главная'},
           {title: 'Корзина'}
     ]"/>
-	<div class="shopping-cart">
-		<cart-table/>
-		<cart-total/>
+		<div class="shopping-cart">
+			<cart-table/>
+			<cart-total/>
+		</div>
 	</div>
 </template>
 
@@ -21,7 +23,5 @@
 	display: flex;
 	justify-content: space-between;
 	gap: 24px;
-
-
 }
 </style>

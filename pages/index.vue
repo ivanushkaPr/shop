@@ -3,14 +3,16 @@ import BannerFullWidth from "assets/mocks/BannerFullWidth.js";
 </script>
 
 <template>
-	<slider-main-page class="main__banner-slider"/>
-	<list-benefits class="main__benefits"/>
-	<blocks-categories class="main__categories" />
-	<blocks-recommendations class="main__recommendations" />
-	<blocks-new class="main__new"/>
-	<blocks-hits class="main__hits"/>
-	<banner-horizontal-full-width class="main__banner-full-width" v-bind="BannerFullWidth"/>
-	<blocks-overview class="main__overview"/>
+	<div>
+		<slider-main-page class="main__banner-slider"/>
+		<list-benefits class="main__benefits"/>
+		<blocks-categories class="main__categories" />
+		<blocks-recommendations class="main__recommendations" />
+		<blocks-new class="main__new"/>
+		<blocks-hits class="main__hits"/>
+		<banner-horizontal-full-width class="main__banner-full-width" v-bind="BannerFullWidth"/>
+		<blocks-overview class="main__overview"/>
+	</div>
 </template>
 
 <style lang="scss">

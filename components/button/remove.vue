@@ -3,7 +3,7 @@ const emits = defineEmits(['remove']);
 </script>
 
 <template>
-<button @clic="emits('remove')" class="button-remove">
+<button @click="emits('remove')" class="button-remove">
 	<icon-close class="button-remove__close-icon" />
 </button>
 </template>
