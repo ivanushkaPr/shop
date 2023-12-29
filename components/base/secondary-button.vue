@@ -21,7 +21,6 @@ const emits = defineEmits(['click']);
 <style lang="scss">
 .secondary-button {
   display: flex;
-  width: 248px;
   padding: 14px 24px;
   justify-content: center;
   align-items: center;
@@ -39,9 +38,17 @@ const emits = defineEmits(['click']);
 
 	cursor: pointer;
 
+
+	& path {
+		stroke: $primary-500;
+	}
+
   &:hover {
     border-color: $primary-600;
     background: $primary-50;
+		& path {
+			//stroke: $secondary-600;
+		}
   }
 
 

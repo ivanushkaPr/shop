@@ -10,7 +10,7 @@
     ]"/>
 		<div class="shopping-cart">
 			<cart-table/>
-			<cart-total/>
+			<cart-total />
 		</div>
 	</div>
 </template>

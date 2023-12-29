@@ -26,7 +26,7 @@ const currency = computed(() => {
 	return useCurrencySymbol(cart?.value?.region?.currency_code);
 });
 
-const redirectUrl = props.isSummary  ? '/checkout' : '/checkout-completed';
+const redirectUrl = props.isSummary  ? '/checkout-completed' : '/checkout';
 </script>
 
 <template>

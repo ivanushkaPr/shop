@@ -9,5 +9,5 @@ const props = defineProps({
 </script>
 
 <template>
-  <p class="base-legend"> {{ props.legend }} </p>
+  <p class="base-legend"> {{ props.legend }} <slot/> </p>
 </template>

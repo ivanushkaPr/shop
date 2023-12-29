@@ -32,8 +32,11 @@ const onInputHandler = (event) => {
   <base-label class="input-text">
 		<div class="input-text__header">
 			<base-legend class="input-text__legend"
-									 :legend="props.legend"/>
-			<slot />
+									 :legend="props.legend">
+				<template v-slot="legend">
+					<slot/>
+				</template>
+			</base-legend>
 		</div>
     <base-input :value="props.modelValue"
                 @input="onInputHandler"
