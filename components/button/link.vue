@@ -33,6 +33,16 @@ const props = defineProps({
 		required: false,
 		default: false,
 	},
+	isGrey: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+	isBackwards: {
+		type: Boolean,
+		required: true,
+		default: false,
+	},
 });
 
 
@@ -44,6 +54,8 @@ const getColor =  computed(() => {
 		color = '#EBC80C';
 	} else if (props.isBlue) {
 		color = '#2DA5F3';
+	} else if (props.isGrey) {
+		color = '#191C1F';
 	}
 	return color;
 });
@@ -55,6 +67,8 @@ const getHoverColor = computed(() => {
 		hoverColor = '#BCA00A';
 	} else if (props.isBlue) {
 		hoverColor = '#2484C2';
+	} else if (props.isGrey) {
+		hoverColor = '#191C1F';
 	}
 	return hoverColor;
 });
@@ -62,12 +76,14 @@ const getHoverColor = computed(() => {
 </script>
 
 <template>
+
 	<NuxtLink class="button-link" :to="href" :style="{
 		'--color': getColor,
 		'--color-hover': getHoverColor,
 	}">
+		<icon-button-link-arrow-prev v-if="isBackwards"/>
 		<span> <slot/> </span>
-		<icon-button-link-arrow />
+		<icon-button-link-arrow v-if="!isBackwards"/>
 	</NuxtLink>
 </template>
 
@@ -75,8 +91,10 @@ const getHoverColor = computed(() => {
 	.button-link {
 		padding: 6px 0;
 		display: flex;
+		align-items: center;
 		gap: 8px;
 		text-decoration: none ;
+		max-width: fit-content;
 
 		color: var(--color);
 		font-size: 14px;

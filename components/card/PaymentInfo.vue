@@ -57,7 +57,7 @@ defineProps({
 
 <style lang="scss">
 .card-payment-info {
-	max-width: 312px;
+	width: 312px;
 	display: inline-flex;
 	flex-direction: column;
 	border-radius: 4px;

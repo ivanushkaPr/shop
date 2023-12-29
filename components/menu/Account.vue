@@ -19,7 +19,7 @@ const menu = [
 	{
 		text: 'История заказов',
 		icon: OrderHistory,
-		href: '/account/order-history',
+		href: '/account/dashboard/order-history',
 	},
 	{
 		text: 'Статус доставки',

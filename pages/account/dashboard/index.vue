@@ -19,6 +19,7 @@ const billingMock1 = [
 		prop: 'Телефон',
 		value: '+1-202-555-0118',
 	},
+
 ];
 
 const billingMock2 = [
@@ -38,17 +39,29 @@ const billingMock2 = [
 </script>
 
 <template>
-	<base-breadcrumbs :breadcrumbs="[
+	<div>
+		<base-breadcrumbs :breadcrumbs="[
           {url: '/', title: 'Главная'},
           {url: '/account', title: 'Личный кабинет'},
           {title: 'Панель управления'}
     ]"/>
-	<div class="dashboard">
-		<menu-account/>
-		<div>
-			<section-account-user class="dashboard__user"/>
-			<section-account-payment class="dashboard__credit-cards"/>
-			<section-account-orders class="dashboard__orders-table"/>
+		<div class="dashboard">
+			<menu-account/>
+			<div>
+				<section-account-user class="dashboard__user"/>
+				<section-account-payment class="dashboard__credit-cards"/>
+				<table-orders class="dashboard__orders-table">
+					<template #header>
+						<description-small-400>
+							Последние заказы
+						</description-small-400>
+
+						<button-link @click="navigateTo('/account/dashboard/order-history/order-details')" is-orange>
+							Смотреть все
+						</button-link >
+					</template>
+				</table-orders>
+			</div>
 		</div>
 	</div>
 </template>
