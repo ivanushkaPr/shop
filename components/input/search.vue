@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
 	modelValue: {
 		type: String,
 		required: true,
@@ -10,9 +10,14 @@ defineProps({
 	}
 });
 
+const searchValue = ref(props.modelValue);
+
 const emits = defineEmits(['update:modelValue']);
 
-const updateValue = (value) => emits('update:modelValue', value);
+const updateValue = (value) => {
+	searchValue.value = value;
+	emits('update:modelValue', value);
+}
 </script>
 
 
