@@ -13,10 +13,6 @@ const { customer } = userStore ;
 import { useCartStore } from "~/stores/cart.js";
 const cartStore = useCartStore();
 const { productsInCart } = cartStore;
-
-
-console.log(cartStore.productsInCart, 'amount of products in cart');
-
 </script>
 
 <template>
@@ -26,7 +22,7 @@ console.log(cartStore.productsInCart, 'amount of products in cart');
 		<form-search-input :placeholder="'Искать товары'"/>
 		<ul class="header-middle__menu">
 			<li class="header-middle__item header-middle__item_cart" @click="navigateTo('/shopping-cart')">
-					<span class="header-middle__products-in-cart"> {{ productsInCart() }}</span>
+					<span class="header-middle__products-in-cart" v-if="productsInCart()"> {{ productsInCart() }}</span>
 				<icon-cart/>
 			</li>
 			<li class="header-middle__item">
