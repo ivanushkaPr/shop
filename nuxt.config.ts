@@ -5,6 +5,7 @@ export default defineNuxtConfig({
         'nuxt-swiper',
         '@pinia/nuxt',
         'nuxt-medusa',
+        'vuetify-nuxt-module',
     ],
     app: {
         pageTransition: { name: 'page', mode: 'out-in' }
@@ -15,6 +16,14 @@ export default defineNuxtConfig({
     googleFonts: {
         families: {
             Roboto: [200, 300, 400, 500, 600, 700, 800],
+        }
+    },
+    vuetify: {
+        moduleOptions: {
+            /* module specific options */
+        },
+        vuetifyOptions: {
+            /* vuetify options */
         }
     },
     css: ['~/assets/scss/base.scss'],

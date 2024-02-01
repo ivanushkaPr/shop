@@ -34,9 +34,13 @@
     "react-dom": "^18.2.0",
     "sass": "^1.67.0",
     "sass-loader": "^13.3.2",
-    "storybook": "^7.6.3"
+    "storybook": "^7.6.3",
+    "vite-plugin-vuetify": "^2.0.1",
+    "vuetify": "^3.5.2",
+    "vuetify-nuxt-module": "^0.10.3"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
     "@meilisearch/instant-meilisearch": "^0.14.0",
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/strapi": "^1.9.3",
