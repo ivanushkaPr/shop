@@ -1,6 +1,6 @@
 <script setup>
 
-import {useSearchStore} from "~/stores/search.js";
+import { useSearchStore } from "~/stores/search.js";
 
 const getCardProps = (product) => {
 	return {
@@ -45,12 +45,9 @@ const query = ref(searchQuery.value);
 		index-name="products"
 		class="catalog"
 	>
-		<ais-configure
-			:hits-per-page="1"
-			:distinct="true"
-			:analytics="true"
-		/>
 		<div>
+			<ais-configure sort-facet-values-by.camel="price" query.camel="query" q.camel="query"
+										 :search-query.camel="'gay'"/>
 			<ais-range-input attribute="price">
 				<template
 					v-slot="{
@@ -110,7 +107,7 @@ const query = ref(searchQuery.value);
 						<li v-if="isFromSearch && !items.length">No results.</li>
 						<li class="catalog__list-item" v-for="item in items" :key="item.value">
 							<input-checkbox :modelValue="item.isRefined" @update:modelValue="refine(item.value)">
-								{{ item.value }}
+								{{ item.value }} <sup class="catalog__items-counter"> {{ item.count }} </sup>
 							</input-checkbox>
 						</li>
 					</ul>
@@ -130,7 +127,7 @@ const query = ref(searchQuery.value);
 						<li v-if="isFromSearch && !items.length">No results.</li>
 						<li class="catalog__list-item" v-for="item in items" :key="item.value">
 							<input-checkbox :modelValue="item.isRefined" @update:modelValue="refine(item.value)">
-								{{ item.value }}
+								{{ item.value }} <sup class="catalog__items-counter"> {{ item.count }} </sup>
 							</input-checkbox>
 						</li>
 					</ul>
@@ -150,7 +147,7 @@ const query = ref(searchQuery.value);
 						<li v-if="isFromSearch && !items.length">No results.</li>
 						<li class="catalog__list-item" v-for="item in items" :key="item.value">
 							<input-checkbox :modelValue="item.isRefined" @update:modelValue="refine(item.value)">
-								{{ item.value }}
+								{{ item.value }} <sup class="catalog__items-counter"> {{ item.count }} </sup>
 							</input-checkbox>
 						</li>
 					</ul>
@@ -170,7 +167,7 @@ const query = ref(searchQuery.value);
 						<li v-if="isFromSearch && !items.length">No results.</li>
 						<li class="catalog__list-item" v-for="item in items" :key="item.value">
 							<input-checkbox :modelValue="item.isRefined" @update:modelValue="refine(item.value)">
-								{{ item.value }}
+								{{ item.value }} <sup class="catalog__items-counter"> {{ item.count }} </sup>
 							</input-checkbox>
 						</li>
 					</ul>
@@ -190,7 +187,7 @@ const query = ref(searchQuery.value);
 						<li v-if="isFromSearch && !items.length">No results.</li>
 						<li class="catalog__list-item" v-for="item in items" :key="item.value">
 							<input-checkbox :modelValue="item.isRefined" @update:modelValue="refine(item.value)">
-								{{ item.value }}
+								{{ item.value }} <sup class="catalog__items-counter"> {{ item.count }} </sup>
 							</input-checkbox>
 						</li>
 					</ul>
@@ -202,9 +199,28 @@ const query = ref(searchQuery.value);
 		<div class="catalog__results">
 			<ais-search-box v-model="searchQuery">
 				<template v-slot="{ currentRefinement, isSearchStalled, refine }">
-					<input-search :modelValue="searchQuery"
-												@update:model-value="refine"/>
-					<span :hidden="!isSearchStalled">Loading...</span>
+					<div class="catalog__results-header">
+						<input-search :modelValue="searchQuery"
+													@update:model-value="refine"/>
+						<span :hidden="!isSearchStalled">Loading...</span>
+
+						<div class="catalog__sort">
+							<p class="catalog__sort-label"> Сортировать по: </p>
+
+							<ais-sort-by
+								:items="[
+								{ value: 'products', label: 'По умолчанию' },
+								{ value: 'products:price:asc', label: 'Сначала дешевые' },
+								{ value: 'products:price:desc', label: 'Сначала дорогие' },
+						 ]"
+								:class-names="{
+									'ais-SortBy': 'MyCustomSortBy',
+									'ais-SortBy-select': 'MyCustomSortBySelect',
+									'ais-SortBy-option': 'MyCustomSortByOption'
+								}"
+							/>
+						</div>
+					</div>
 				</template>
 			</ais-search-box>
 
@@ -213,33 +229,35 @@ const query = ref(searchQuery.value);
 					<template v-slot="{ items, createURL }">
 
 						<p class="catalog__stats-label">Активные фильтры: </p>
-								<ul class="catalog__active-filters" v-for="item in items" :key="item.attribute">
-									<li class="catalog__active-filter"
-										v-for="refinement in item.refinements"
-										:key="[
+						<ul class="catalog__active-filters" v-for="item in items" :key="item.attribute">
+							<li class="catalog__active-filter"
+									v-for="refinement in item.refinements"
+									:key="[
 											refinement.attribute,
 											refinement.type,
 											refinement.value,
 											refinement.operator
 										].join(':')">
-										<a
-											class="catalog__active-filter-label"
-											:href="createURL(refinement)"
-											@click.prevent="item.refine(refinement)"
-										>
-											{{ refinement.label }} <icon-close-sm />
-										</a>
-									</li>
-								</ul>
+								<a
+									class="catalog__active-filter-label"
+									:href="createURL(refinement)"
+									@click.prevent="item.refine(refinement)"
+								>
+									{{ refinement.label }}
+									<icon-close-sm/>
+								</a>
+							</li>
+						</ul>
 					</template>
 				</ais-current-refinements>
 
 				<ais-stats>
 					<template v-slot="{ hitsPerPage, nbPages, nbHits, page, processingTimeMS, query }">
 
-						<p class="catalog__results-amount"> {{ nbHits }} <span class="catalog__results-label"> результата </span></p>
-<!--						Page {{ page + 1 }} of {{ nbPages }} with {{ hitsPerPage }} hits per page - -->
-<!--						{{ nbHits }} hits retrieved in {{ processingTimeMS }}ms for <q>{{ query }}</q>-->
+						<p class="catalog__results-amount"> {{ nbHits }} <span class="catalog__results-label"> результата </span>
+						</p>
+						<!--						Page {{ page + 1 }} of {{ nbPages }} with {{ hitsPerPage }} hits per page - -->
+						<!--						{{ nbHits }} hits retrieved in {{ processingTimeMS }}ms for <q>{{ query }}</q>-->
 					</template>
 				</ais-stats>
 			</div>
@@ -299,6 +317,10 @@ const query = ref(searchQuery.value);
 		margin-bottom: 8px;
 	}
 
+	&__items-counter {
+		color: $secondary-500;
+	}
+
 	&__results {
 		width: 100%;
 	}
@@ -343,6 +365,14 @@ const query = ref(searchQuery.value);
 		@include font(14px, 20px, 400);
 	}
 
+	&__results-header {
+		display: flex;
+		justify-content: space-between;
+
+		& > *:first-child {
+			flex-grow: 1;
+		}
+	}
 
 	&__results-amount {
 		text-decoration: none;
@@ -355,5 +385,30 @@ const query = ref(searchQuery.value);
 		color: rgb(95, 108, 114);
 		@include font(14px, 20px, 400);
 	}
+
+
+	&__sort {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	&__sort-label {
+		/* Body/Small/400 */
+		color: rgb(25, 28, 31);
+		@include font(14px, 20px, 500);
+	}
+	.MyCustomSortBy {}
+
+	.MyCustomSortBySelect {
+		min-width: 200px;
+		padding: 12px 16px;
+		box-sizing: border-box;
+		border: 1px solid rgb(228, 231, 233);
+		border-radius: 2px;
+	}
+
+	.MyCustomSortByOption {}
+
 }
 </style>

@@ -47,7 +47,6 @@
 
 <style lang="scss">
 .widgets {
-	padding: 24px 300px;
 	max-width: 1320px;
 
 	&__column {
