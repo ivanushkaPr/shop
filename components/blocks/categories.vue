@@ -3,15 +3,8 @@
 		<header class="block-categories__header">
 			<div class="block-categories__left">
 				<heading-level-three class="block-categories__headline">
-					Лучшие предложения
+					Музыкальные жанры
 				</heading-level-three>
-
-				<p class="block-categories__timer">
-					До конца акции
-					<span class="block-categories__time">
-						16д:21ч:57м:23с
-					</span>
-				</p>
 			</div>
 			<button-link title="Смотреть все" color="#2DA5F3" color-hover="#2484C2" href="#"/>
 		</header>

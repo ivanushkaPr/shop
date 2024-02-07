@@ -1,70 +1,71 @@
 <script setup>
+import categoryTransformer from 'assets/transformers/category.js';
+defineProps({
+	src: {
+		type: String,
+		required: true,
+	},
+	alt: {
+		type: String,
+		required: true,
+	},
+	caption: {
+		type: String,
+		required: true,
+	},
+	href: {
+		type: String,
+		required: true,
+	},
+});
 
-const cardDataMock = {
-	src: '/images/slider/banner-dm.png',
-	alt: 'some text',
-	caption: 'Тяжелый рок',
-	href: '#',
-}
+const { searchClient, setMeiliSearchParams } = await useMeliSearch();
+
+const redirectTo = useRedirectTo();
+
 </script>
 
 <template>
-	<div class="slider-row">
-		<div class="swiper-button-prev">
-			<icon-arrow-prev-lined />
-		</div>
-		<div class="swiper-button-next">
-			<icon-arrow-next-lined />
-		</div>
+	<ais-instant-search
+		:search-client="searchClient"
+		index-name="products">
+		<ais-refinement-list searchable attribute="genre">
+			<template
+				v-slot="{
+						items,
+						isFromSearch,
+						refine,
+						searchForItems,
+					}"
+			>
+				<div class="slider-row">
+					<div class="swiper-button-prev">
+						<icon-arrow-prev-lined />
+					</div>
+					<div class="swiper-button-next">
+						<icon-arrow-next-lined />
+					</div>
 
-		<swiper
-			ref="slider"
-			:navigation="{
+					<swiper
+						ref="slider"
+						:navigation="{
 				nextEl: '.swiper-button-next',
 				prevEl: '.swiper-button-prev',
 			}"
-			:slidesPerView="6"
-			:spaceBetween="18"
-			:modules="[SwiperNavigation]"
-			class="mySwiper"
-		>
-			<swiper-slide>
-				<card-category v-bind="cardDataMock"/>
-			</swiper-slide>
-
-			<swiper-slide>
-				<card-category v-bind="cardDataMock"/>
-			</swiper-slide>
-
-			<swiper-slide>
-				<card-category v-bind="cardDataMock"/>
-			</swiper-slide>
-
-			<swiper-slide>
-				<card-category v-bind="cardDataMock"/>
-			</swiper-slide>
-
-			<swiper-slide>
-				<card-category v-bind="cardDataMock"/>
-			</swiper-slide>
-
-			<swiper-slide>
-				<card-category v-bind="cardDataMock"/>
-			</swiper-slide>
-
-			<swiper-slide>
-				<card-category v-bind="cardDataMock"/>
-			</swiper-slide>
-
-			<swiper-slide>
-				<card-category v-bind="cardDataMock"/>
-			</swiper-slide>
-
-			<swiper-slide>
-				<card-category v-bind="cardDataMock"/>
-			</swiper-slide>
-		</swiper>
-	</div>
+						:slidesPerView="6"
+						:spaceBetween="18"
+						:modules="[SwiperNavigation]"
+						class="mySwiper"
+					>
+						<swiper-slide v-for="item in items">
+							<card-category @click="redirectTo(item.value)"
+														 v-bind="categoryTransformer.transform(item.value)"/>
+						</swiper-slide>
+					</swiper>
+				</div>
+			</template>
+		</ais-refinement-list>
+	</ais-instant-search>
 </template>
 
 <style lang="scss">

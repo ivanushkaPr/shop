@@ -76,7 +76,6 @@ const getHoverColor = computed(() => {
 </script>
 
 <template>
-
 	<NuxtLink class="button-link" :to="href" :style="{
 		'--color': getColor,
 		'--color-hover': getHoverColor,

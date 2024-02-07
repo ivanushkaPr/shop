@@ -2,6 +2,16 @@
 
 import { useSearchStore } from "~/stores/search.js";
 
+const {searchClient, setMeiliSearchParams} = await useMeliSearch();
+
+import { history as historyRouter } from 'instantsearch.js/es/lib/routers';
+import { singleIndex as singleIndexMapping } from 'instantsearch.js/es/lib/stateMappings';
+const router = historyRouter();
+const stateMapping = singleIndexMapping('products');
+
+const {searchQuery} = useSearchStore();
+const query = ref(searchQuery.value);
+
 const getCardProps = (product) => {
 	return {
 		src: product.thumbnail,
@@ -13,9 +23,6 @@ const getCardProps = (product) => {
 		variantId: product.variants[0]?.id,
 	}
 }
-
-const {searchClient, setMeiliSearchParams} = await useMeliSearch();
-import {AisInstantSearch, AisSearchBox, AisHits, AisConfigure} from 'vue-instantsearch/vue3/es';
 
 function formatMinValue(minValue, minRange) {
 	return minValue !== null && minValue !== minRange ? minValue : '';
@@ -33,10 +40,6 @@ function toValue(value, range) {
 	];
 }
 
-
-const {searchQuery} = useSearchStore();
-const query = ref(searchQuery.value);
-
 </script>
 
 <template>
@@ -44,19 +47,21 @@ const query = ref(searchQuery.value);
 		:search-client="searchClient"
 		index-name="products"
 		class="catalog"
+		:routing="{
+			router,
+			stateMapping,
+		}"
 	>
 		<div>
-			<ais-configure sort-facet-values-by.camel="price" query.camel="query" q.camel="query"
-										 :search-query.camel="'gay'"/>
 			<ais-range-input attribute="price">
 				<template
 					v-slot="{
-        currentRefinement,
-        range,
-        canRefine,
-        refine,
-        sendEvent,
-      }"
+						currentRefinement,
+						range,
+						canRefine,
+						refine,
+						sendEvent,
+					}"
 				>
 
 					<input
@@ -133,26 +138,6 @@ const query = ref(searchQuery.value);
 					</ul>
 				</template>
 			</ais-refinement-list>
-			<ais-refinement-list searchable attribute="brand">
-				<template
-					v-slot="{
-						items,
-						isFromSearch,
-						refine,
-						searchForItems,
-					}"
-				>
-					<input-search class="catalog__search" @update:modelValue="searchForItems"/>
-					<ul class="catalog__list">
-						<li v-if="isFromSearch && !items.length">No results.</li>
-						<li class="catalog__list-item" v-for="item in items" :key="item.value">
-							<input-checkbox :modelValue="item.isRefined" @update:modelValue="refine(item.value)">
-								{{ item.value }} <sup class="catalog__items-counter"> {{ item.count }} </sup>
-							</input-checkbox>
-						</li>
-					</ul>
-				</template>
-			</ais-refinement-list>
 			<ais-refinement-list searchable attribute="label">
 				<template
 					v-slot="{
@@ -209,7 +194,10 @@ const query = ref(searchQuery.value);
 
 							<ais-sort-by
 								:items="[
+								{ value: '', label: 'Без сортировки' },
 								{ value: 'products', label: 'По умолчанию' },
+								{ value: 'products:singer:asc', label: 'По алфавиту' },
+								{ value: 'products:singer:desc', label: 'По алфавиту с конца' },
 								{ value: 'products:price:asc', label: 'Сначала дешевые' },
 								{ value: 'products:price:desc', label: 'Сначала дорогие' },
 						 ]"
@@ -401,7 +389,7 @@ const query = ref(searchQuery.value);
 	.MyCustomSortBy {}
 
 	.MyCustomSortBySelect {
-		min-width: 200px;
+		min-width: 300px;
 		padding: 12px 16px;
 		box-sizing: border-box;
 		border: 1px solid rgb(228, 231, 233);

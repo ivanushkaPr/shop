@@ -7,6 +7,12 @@ export default defineNuxtConfig({
         'nuxt-medusa',
         'vuetify-nuxt-module',
     ],
+    medusa: {
+        baseUrl: 'http://localhost:9000',
+        maxRetries: 3,
+        global: true,
+        server: false
+    },
     app: {
         pageTransition: { name: 'page', mode: 'out-in' }
     },

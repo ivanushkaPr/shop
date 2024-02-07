@@ -43,9 +43,6 @@ const props = defineProps({
 		required: false,
 		default: 'rub',
 	},
-	fullData: {
-		type: Object,
-	},
 	id: {
 		type: String,
 		required: true,

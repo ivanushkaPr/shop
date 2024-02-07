@@ -1,5 +1,7 @@
 <script setup>
 import BannerFullWidth from "assets/mocks/BannerFullWidth.js";
+
+debugger
 </script>
 
 <template>
